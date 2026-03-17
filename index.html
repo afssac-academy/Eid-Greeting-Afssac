@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تهنئة عيد الفطر - أكاديمية العرب</title>
     <style>
+        /* استدعاء خط TheSansArabic بوزن Black (900) */
+        @font-face {
+            font-family: 'TheSansArabic-Black';
+            src: url('https://db.onlinewebfonts.com/t/215106c107ed3f7d88566a7b065a0fa0.eot');
+            src: url('https://db.onlinewebfonts.com/t/215106c107ed3f7d88566a7b065a0fa0.eot?#iefix') format('embedded-opentype'),
+            url('https://db.onlinewebfonts.com/t/215106c107ed3f7d88566a7b065a0fa0.woff2') format('woff2'),
+            url('https://db.onlinewebfonts.com/t/215106c107ed3f7d88566a7b065a0fa0.woff') format('woff'),
+            url('https://db.onlinewebfonts.com/t/215106c107ed3f7d88566a7b065a0fa0.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+        }
+
         body { font-family: 'Arial', sans-serif; background: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card-container { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 380px; }
         .logo { width: 90px; margin-bottom: 15px; }
@@ -53,14 +65,14 @@
     function draw(name) {
         ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
         
-        // إعدادات الخط: أسود، Arial Bold، سطر واحد
+        // إعدادات الخط: أسود، TheSansArabic-Black، سطر واحد
         ctx.fillStyle = "#000000";
         ctx.textAlign = "center";
         
-        // استخدام Arial Bold بحجم 85px ليكون واضحاً ومتناسقاً
-        ctx.font = "bold 85px Arial";
+        // استخدام الخط المطلوب بوزن Black وحجم 85px
+        ctx.font = "900 85px 'TheSansArabic-Black', sans-serif";
 
-        // الارتفاع 1240 ليكون تحت "كل عام وأنتم بخير" بمسافة واحدة
+        // الإحداثي 1240 يضع الاسم تحت "كل عام وأنتم بخير" بمسافة واحدة دقيقة
         ctx.fillText(name, canvas.width / 2, 1240);
 
         document.getElementById('input-section').style.display = 'none';
