@@ -37,60 +37,49 @@
 </div>
 
 <script>
+ <script>
     const canvas = document.getElementById('cardCanvas');
     const ctx = canvas.getContext('2d');
     const cardImg = new Image();
     
-    // محاولة تحميل الصورة من الملف المحلي
-    cardImg.src = 'Card.jpg';
+    // تأكد أن اسم الصورة مطابق تماماً لما هو مرفوع في المجلد
+    cardImg.src = 'Card.jpg'; 
 
     function generateCard() {
         const name = document.getElementById('nameInput').value;
         if (!name) return alert("من فضلك اكتب الاسم");
 
-        // ضبط مقاسات الكانفاس (مقاس ستوري أو بوست)
         canvas.width = 1080;
         canvas.height = 1920;
 
-        // مسح الكانفاس ورسم خلفية بيضاء احتياطية
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // رسم الصورة (لو محملتش هيفضل اللون الأبيض والاسم هيظهر برضه)
-        if (cardImg.complete && cardImg.naturalWidth !== 0) {
+        if (cardImg.complete) {
             ctx.drawImage(cardImg, 0, 0, canvas.width, canvas.height);
-        } else {
-            console.error("Card image not loaded");
-            // رسم مستطيل ملون احتياطي لو الصورة فيها مشكلة عشان الزرار ميعلقش
-            ctx.fillStyle = "#f9f9f9";
-            ctx.fillRect(0,0, canvas.width, canvas.height);
         }
 
-        // إضافة الاسم
-        ctx.fillStyle = "#d1202f"; // اللون الأحمر
+        // --- التعديلات المطلوبة هنا ---
+        ctx.fillStyle = "#000000"; // اللون الأسود
         ctx.textAlign = "center";
-        ctx.font = "bold 80px Tajawal, sans-serif";
+        // استخدام خط عريض جداً ليشبه الصورة الثانية
+        ctx.font = "800 75px 'Tajawal', sans-serif"; 
         
-        // مكان الاسم (28% من الأسفل = 72% من الأعلى)
-        ctx.fillText(name, canvas.width / 2, canvas.height * 0.72);
+        // تعديل الارتفاع (73%) ليكون تحت "كل عام وأنتم بخير" بمسافتين
+        ctx.fillText(name, canvas.width / 2, canvas.height * 0.73);
+        // ----------------------------
 
-        // التبديل بين الواجهات
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'block';
     }
 
     function downloadImage() {
-        try {
-            const link = document.createElement('a');
-            link.download = 'Eid_Card_AFSSAC.png';
-            link.href = canvas.toDataURL("image/png");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } catch (e) {
-            alert("المتصفح يمنع التحميل المباشر، اضغط مطولاً على الصورة لحفظها.");
-        }
+        const link = document.createElement('a');
+        link.download = 'Eid_Card_AFSSAC.png';
+        link.href = canvas.toDataURL("image/png");
+        link.click();
     }
+</script>
 </script>
 
 </body>
