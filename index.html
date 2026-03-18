@@ -78,10 +78,11 @@
         // تطبيق الخط TheSansArab Black برمجياً على الـ Canvas
         ctx.font = "900 70px 'TheSansArab', sans-serif";
 
-        // --- التعديل الجوهري لمكان الاسم ---
-        // تم نقل الإحداثي y إلى الأسفل تماماً فوق التاريخ.
-        // التاريخ يقع تقريباً عند 1830، لذا فالإحداثي 1740 هو "مسافة واحدة" فوقه.
-        ctx.fillText(name, canvas.width / 2, 1740);
+        // --- التعديل الدقيق لمكان الاسم ---
+        // تم رفع الإحداثي y من 1740 إلى 1520.
+        // التاريخ يقع تقريباً عند 1830 والكلمة المزخرفة تنتهي عند 1300.
+        // الإحداثي 1520 هو المنتصف المثالي، لإعطاء التصميم فخامة وتناسق.
+        ctx.fillText(name, canvas.width / 2, 1520);
 
         document.getElementById('input-section').style.display = 'none';
         document.getElementById('output-section').style.display = 'block';
