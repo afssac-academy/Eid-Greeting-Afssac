@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,82 +21,110 @@ body{
 
 .container{
     width:100%;
-    max-width:520px;
+    max-width:500px;
     padding:20px;
 }
 
 .card{
-    background:#ffffff;
+    background:#fff;
     border-radius:30px;
     padding:40px 30px;
     text-align:center;
-    box-shadow:0 10px 35px rgba(0,0,0,0.12);
+    box-shadow:0 5px 25px rgba(0,0,0,0.1);
 }
 
 .logo{
-    width:110px;
-    margin-bottom:25px;
+    width:120px;
+    margin-bottom:30px;
 }
 
-h1{
-    color:#b88900;
-    font-size:58px;
-    margin-bottom:35px;
+.title{
+    color:#c39200;
+    font-size:60px;
+    font-weight:bold;
+    line-height:1.3;
+    margin-bottom:30px;
 }
 
 .text{
-    color:#222;
-    font-size:24px;
-    line-height:2;
+    font-size:28px;
+    line-height:1.8;
+    color:#111;
 }
 
 .name{
-    font-size:62px;
+    font-size:70px;
     font-weight:bold;
     color:#000;
-    margin:45px 0;
-}
-
-input{
-    width:100%;
-    padding:18px;
-    border-radius:15px;
-    border:1px solid #ccc;
-    font-size:24px;
-    text-align:center;
-    margin-top:30px;
-    box-sizing:border-box;
-}
-
-button{
-    width:100%;
-    padding:18px;
-    border:none;
-    border-radius:15px;
-    margin-top:20px;
-    font-size:24px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.create-btn{
-    background:#b88900;
-    color:white;
-}
-
-.share-btn{
-    background:#2ecc71;
-    color:white;
+    margin:40px 0;
+    line-height:1.2;
 }
 
 .footer{
-    margin-top:35px;
+    font-size:28px;
+    margin-top:20px;
+}
+
+.inputBox{
+    width:100%;
+    height:70px;
+    border-radius:18px;
+    border:1px solid #ccc;
+    text-align:center;
+    font-size:28px;
+    margin-top:30px;
+}
+
+.btn{
+    width:100%;
+    height:70px;
+    border:none;
+    border-radius:18px;
+    background:#c39200;
+    color:#fff;
+    font-size:28px;
+    font-weight:bold;
+    margin-top:25px;
+    cursor:pointer;
+}
+
+.share{
+    background:#2ecc71;
+}
+
+.small{
+    margin-top:40px;
+    font-size:18px;
     color:#666;
+}
+
+.hidden{
+    display:none;
+}
+
+@media(max-width:600px){
+
+.title{
+    font-size:38px;
+}
+
+.text{
     font-size:20px;
 }
 
-#cardPage{
-    display:none;
+.name{
+    font-size:42px;
+}
+
+.footer{
+    font-size:20px;
+}
+
+.inputBox,
+.btn{
+    font-size:22px;
+}
+
 }
 
 </style>
@@ -107,32 +134,45 @@ button{
 
 <div class="container">
 
-    <!-- الصفحة الأولى -->
-    <div class="card" id="homePage">
+    <!-- صفحة الإدخال -->
+
+    <div class="card" id="startPage">
 
         <img src="logo.png" class="logo">
 
-        <h1>عيد أضحى مبارك</h1>
+        <div class="title">
+            عيد أضحى مبارك
+        </div>
 
         <div class="text">
             أكاديمية العرب للإطفاء والسلامة والأمن<br>
             تهنئكم بحلول عيد الأضحى المبارك
         </div>
 
-        <input type="text" id="userName" placeholder="اكتب الاسم الكامل">
+        <input
+            type="text"
+            id="userName"
+            class="inputBox"
+            placeholder="اكتب الاسم الكامل"
+        >
 
-        <button class="create-btn" onclick="createCard()">
+        <button class="btn" onclick="showGreeting()">
             إنشاء المعايدة
         </button>
 
     </div>
 
+
+
     <!-- صفحة المعايدة -->
-    <div class="card" id="cardPage">
+
+    <div class="card hidden" id="greetingPage">
 
         <img src="logo.png" class="logo">
 
-        <h1>عيد أضحى مبارك</h1>
+        <div class="title">
+            عيد أضحى مبارك
+        </div>
 
         <div class="text">
             تتقدم أكاديمية العرب للإطفاء والسلامة والأمن<br>
@@ -140,17 +180,19 @@ button{
             بمناسبة عيد الأضحى المبارك
         </div>
 
-        <div class="name" id="displayName"></div>
+        <div class="name" id="finalName">
+            أحمد عبد الستار
+        </div>
 
-        <div class="text">
+        <div class="footer">
             كل عام وأنتم بخير
         </div>
 
-        <button class="share-btn" onclick="shareCard()">
+        <button class="btn share" onclick="shareCard()">
             مشاركة المعايدة
         </button>
 
-        <div class="footer">
+        <div class="small">
             AFSSAC Academy
         </div>
 
@@ -160,40 +202,34 @@ button{
 
 <script>
 
-function createCard(){
+function showGreeting(){
 
     let name = document.getElementById("userName").value;
 
-    if(name.trim() === ""){
-        alert("من فضلك اكتب الاسم الكامل");
+    if(name.trim() == ""){
+        alert("اكتب الاسم");
         return;
     }
 
-    window.location.href =
-    window.location.origin +
-    window.location.pathname +
-    "?name=" +
-    encodeURIComponent(name);
+    document.getElementById("finalName").innerHTML = name;
+
+    document.getElementById("startPage").classList.add("hidden");
+
+    document.getElementById("greetingPage").classList.remove("hidden");
 }
 
 function shareCard(){
 
-    navigator.clipboard.writeText(window.location.href);
+    if(navigator.share){
 
-    alert("تم نسخ رابط المعايدة");
-}
+        navigator.share({
+            title:'معايدة عيد الأضحى',
+            text:'كل عام وأنتم بخير'
+        });
 
-const params = new URLSearchParams(window.location.search);
-
-const name = params.get("name");
-
-if(name){
-
-    document.getElementById("homePage").style.display = "none";
-
-    document.getElementById("cardPage").style.display = "block";
-
-    document.getElementById("displayName").innerText = name;
+    }else{
+        alert("المشاركة غير مدعومة على هذا الجهاز");
+    }
 }
 
 </script>
