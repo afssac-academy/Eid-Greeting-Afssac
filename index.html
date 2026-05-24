@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2 family=Tajawal:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -20,18 +20,19 @@
             font-family: 'Tajawal', sans-serif;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
             background: #f4f6f9;
-            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0;
-            margin: 0;
-            overflow: hidden; /* لمنع أي تشنج أو سكرول أثناء حركة الستارة */
+            overflow: hidden; /* يمنع السكرول العشوائي أثناء حركة الستارة */
         }
 
-        /* ----- 1. نظام الستارة الميكانيكي (انقسام حقيقي وإزاحة كاملة) ----- */
+        /* ----- 1. هندسة الستارة الترحيبية (بدون اللوجو نهائياً) ----- */
         .curtain-wrapper {
             position: fixed;
             top: 0;
@@ -39,12 +40,11 @@
             width: 100vw;
             height: 100vh;
             z-index: 9999;
-            display: flex;
             overflow: hidden;
-            pointer-events: none;
+            display: flex;
         }
 
-        /* تصميم القماش المخملي الفخم بخطوط ظلال طولية واضحة */
+        /* قماش الستارة بخطوط ظلال طولية فخمة وموزعة هندسياً */
         .curtain-half {
             width: 50%;
             height: 100%;
@@ -52,152 +52,123 @@
                 #063020 0%, #0d5c3f 15%, #08422d 30%, 
                 #0d5c3f 45%, #063020 60%, #0d5c3f 75%, 
                 #08422d 90%, #063020 100%);
-            background-size: 80px 100%; /* حجم الخطوط لتبدو كقماش حقيقي */
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.6);
-            pointer-events: auto;
-            /* حركة إزاحة فيزيائية ناعمة جداً ومضمونة على جميع المتصفحات */
-            transition: transform 2.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 2s ease;
+            background-size: 60px 100%; 
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+            transition: transform 2s cubic-bezier(0.77, 0, 0.175, 1);
+            position: absolute;
+            top: 0;
         }
 
-        /* الستارة اليسرى تذهب بالكامل إلى اليسار خارج الشاشة */
-        .left-curtain {
-            transform: translateX(0);
-        }
+        .left-curtain { left: 0; transform: translateX(0); }
+        .right-curtain { right: 0; transform: translateX(0); }
 
-        /* الستارة اليمنى تذهب بالكامل إلى اليمين خارج الشاشة */
-        .right-curtain {
-            transform: translateX(0);
-        }
+        /* حركة الانفتاح والانسحاب الجانبي الكامل لخارج الشاشة */
+        .curtain-wrapper.open .left-curtain { transform: translateX(-100%); }
+        .curtain-wrapper.open .right-curtain { transform: translateX(100%); }
 
-        /* تفعيل حركات الانقسام والانسحاب الجانبي */
-        .curtain-wrapper.open .left-curtain {
-            transform: translateX(-100%); /* سحب لليسار */
-            opacity: 0.3;
-        }
-
-        .curtain-wrapper.open .right-curtain {
-            transform: translateX(100%); /* سحب لليمين */
-            opacity: 0.3;
-        }
-
-        /* الحاوية الترحيبية فوق الستارة (قبل الفتح) */
+        /* طبقة النص الترحيبي الثابتة بالسنتر (بدون أي لوجو) */
         .curtain-welcome-box {
             position: absolute;
             top: 50%;
-            left: 50(--);
+            left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 10000;
+            z-index: 10005;
             text-align: center;
             width: 100%;
+            max-width: 400px;
             padding: 0 20px;
             transition: opacity 0.8s ease, transform 0.8s ease;
-            pointer-events: auto;
-        }
-
-        /* عزل وقص حواف اللوجو المربع البيضاء برمجياً ليصبح دائرياً بالكامل نظيفاً */
-        .curtain-welcome-box img {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%; /* تحويل كامل لشكل دائري نظيف */
-            object-fit: cover;
-            background: #fff; /* خلفية بيضاء متناسقة مع إطار اللوجو الدائري الداخلي */
-            padding: 4px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            margin-bottom: 25px;
         }
 
         .curtain-welcome-text {
             color: #ffffff;
-            font-size: 28px;
+            font-size: 32px; /* خط عريض ومميز */
             font-weight: 700;
-            letter-spacing: 0.5px;
-            text-shadow: 0 3px 8px rgba(0,0,0,0.7);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.85);
+            white-space: nowrap;
         }
 
-        /* تلاشي المحتوى الترحيبي تدريجياً فور بدء انفتاح الستارة */
+        /* تلاشي النص الترحيبي بنعومة عند بدء انقسام الستارة */
         .curtain-wrapper.open .curtain-welcome-box {
             opacity: 0;
-            transform: translate(-50%, -60%) scale(0.9);
+            transform: translate(-50%, -55%) scale(0.9);
             pointer-events: none;
         }
 
-        /* حجب حاوية الستارة تماماً بعد انتهاء الحركة لعدم إعاقة أي ضغط */
+        /* إزالة طبقة الستارة تماماً من الكود بعد الفتح لتفعيل الأزرار */
         .curtain-wrapper.hide-completely {
             display: none !important;
         }
 
 
-        /* ----- 2. واجهة إدخال الاسم (تظهر بثبات وفخامة بعد الفتح) ----- */
+        /* ----- 2. واجهة صندوق إدخال الاسم (تظهر بثبات بالداخل) ----- */
         .first-page {
             width: 90%;
-            max-width: 420px;
+            max-width: 410px;
             background: #ffffff;
-            padding: 40px 30px;
-            border-radius: 28px;
+            padding: 40px 25px;
+            border-radius: 24px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
             z-index: 1;
             opacity: 0;
-            transform: translateY(20px);
-            animation: showBoxForm 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-            animation-delay: 0.6s; /* يبدأ المربع بالظهور الأنيق والستارة تنفتح */
+            transform: translateY(15px);
+            animation: showBoxForm 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation-delay: 0.8s; /* تبدأ بالظهور المتناسق مع سحب الستارة */
         }
 
         @keyframes showBoxForm {
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ظهور اللوجو بشكل نظيف وبحواف بيضاء دائرية متناسقة داخل الصندوق */
         .first-page .logo {
             width: 110px;
             height: 110px;
             border-radius: 50%;
-            margin-bottom: 20px;
+            object-fit: cover;
+            background: #ffffff;
+            padding: 3px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
 
         .first-page .title {
             font-size: 24px;
             font-weight: 700;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             color: #0b1a30;
         }
 
         input {
             width: 100%;
-            padding: 16px 20px;
+            padding: 16px;
             border-radius: 14px;
             border: 1px solid #e2e8f0;
             font-size: 18px;
             outline: none;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             text-align: center;
             color: #1a202c;
             background: #f8fafc;
-            transition: border-color 0.3s ease;
         }
 
         input:focus {
             border-color: #0d5c3f;
-            background: #fff;
+            background: #ffffff;
         }
 
         .show-btn {
             background: #0d5c3f;
             color: #ffffff;
             width: 100%;
-            padding: 16px;
+            padding: 15px;
             border: none;
             border-radius: 14px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(13, 92, 63, 0.25);
-            transition: all 0.3s ease;
-        }
-
-        .show-btn:hover {
-            background: #0a4731;
-            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(13, 92, 63, 0.2);
         }
 
 
@@ -205,9 +176,9 @@
         .second-page {
             display: none; 
             width: 100vw;
-            max-width: 500px;
+            max-width: 480px;
             text-align: center;
-            padding: 15px;
+            padding: 10px;
             z-index: 2;
         }
 
@@ -217,7 +188,7 @@
             background: #ffffff;
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
         }
 
         .card-container img {
@@ -226,7 +197,7 @@
             display: block;
         }
 
-        /* تموضع الاسم بشكل موزون تماماً فوق سطر التاريخ */
+        /* وضع الاسم بالملي في مكانه المخصص فوق سطر التاريخ */
         .name-box {
             position: absolute;
             bottom: 9.5%; 
@@ -236,27 +207,22 @@
             font-size: 26px;
             font-weight: 700;
             color: #000000;
-            padding: 0 20px;
+            padding: 0 15px;
             direction: rtl;
         }
 
         .save-btn {
             background: #107c41;
             color: #ffffff;
-            margin-top: 20px;
+            margin-top: 15px;
             width: 100%;
-            padding: 16px;
+            padding: 15px;
             border: none;
             border-radius: 14px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(16, 124, 65, 0.3);
-            transition: background 0.3s ease;
-        }
-
-        .save-btn:hover {
-            background: #0d6333;
+            box-shadow: 0 5px 15px rgba(16, 124, 65, 0.25);
         }
     </style>
 </head>
@@ -265,7 +231,6 @@
 
     <div class="curtain-wrapper" id="curtainWrapper">
         <div class="curtain-welcome-box">
-            <img src="logo.png" alt="شعار أفساك">
             <div class="curtain-welcome-text">مرحبا بكم في أفساك</div>
         </div>
         <div class="curtain-half left-curtain"></div>
@@ -288,18 +253,18 @@
     </section>
 
     <script>
-        // إطلاق حركة الفتح الميكانيكية لليمين واليسار بعد ثانيتين من دخول الموقع تلقائياً
+        // تفعيل حركة انزلاق نصفي الستارة للخارج بعد ثانيتين من دخول الصفحة تلقائياً
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const curtainWrapper = document.getElementById('curtainWrapper');
                 curtainWrapper.classList.add('open');
                 
-                // السماح بالسكرول وإخفاء حاوية الستارة نهائياً بعد خروجها تماماً من الشاشة
+                // تصفية طبقة الستارة تماماً لعدم حجب الأزرار، والسماح بالسكرول العادي
                 setTimeout(() => {
                     document.body.style.overflow = 'auto';
                     curtainWrapper.classList.add('hide-completely');
-                }, 2200); // وقت متناسق مع مدة حركة الستارة
-            }, 2000); // تظل ثابتة لمدة ثانيتين ليقرأ الزائر العبارة الترحيبية واللوجو النظيف
+                }, 2000); 
+            }, 2000); // بقاء الستارة مغلقة ثانيتين ليقرأ الزائر النص الترحيبي الواضح
         });
 
         function showGreeting() {
@@ -317,7 +282,7 @@
             window.scrollTo(0, 0);
         }
 
-        // تحويل محتوى الكارت بالاسم إلى صورة وحفظها بجودة عالية
+        // دالة تحويل بطاقة التهنئة مع الاسم المكتوب إلى صورة وحفظها
         function downloadCard() {
             let enteredName = document.getElementById("nameInput").value.trim();
             const cardElement = document.getElementById('cardCapture');
