@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>معايدة عيد الأضحى - AFSSAC</title>
+<title>AFSSAC Eid Greeting</title>
 
 <style>
 
 body{
     margin:0;
     padding:0;
-    font-family:Tahoma, Arial;
     background:#f3f3f3;
+    font-family:Tahoma;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -21,29 +22,29 @@ body{
 
 .container{
     width:100%;
-    max-width:500px;
+    max-width:520px;
     padding:20px;
 }
 
 .card{
-    background:#fff;
+    background:white;
     border-radius:30px;
-    padding:40px 30px;
+    padding:40px 25px;
     text-align:center;
-    box-shadow:0 5px 25px rgba(0,0,0,0.1);
+    box-shadow:0 5px 25px rgba(0,0,0,0.12);
 }
 
 .logo{
     width:120px;
-    margin-bottom:30px;
+    margin-bottom:25px;
 }
 
 .title{
-    color:#c39200;
     font-size:60px;
     font-weight:bold;
+    color:#c39200;
     line-height:1.3;
-    margin-bottom:30px;
+    margin-bottom:25px;
 }
 
 .text{
@@ -53,26 +54,26 @@ body{
 }
 
 .name{
-    font-size:70px;
+    font-size:65px;
     font-weight:bold;
-    color:#000;
-    margin:40px 0;
+    color:black;
+    margin:45px 0;
     line-height:1.2;
 }
 
 .footer{
     font-size:28px;
-    margin-top:20px;
+    margin-top:10px;
 }
 
-.inputBox{
+.input{
     width:100%;
     height:70px;
     border-radius:18px;
     border:1px solid #ccc;
+    margin-top:35px;
     text-align:center;
-    font-size:28px;
-    margin-top:30px;
+    font-size:26px;
 }
 
 .btn{
@@ -81,10 +82,10 @@ body{
     border:none;
     border-radius:18px;
     background:#c39200;
-    color:#fff;
+    color:white;
     font-size:28px;
     font-weight:bold;
-    margin-top:25px;
+    margin-top:20px;
     cursor:pointer;
 }
 
@@ -93,7 +94,7 @@ body{
 }
 
 .small{
-    margin-top:40px;
+    margin-top:35px;
     font-size:18px;
     color:#666;
 }
@@ -120,7 +121,7 @@ body{
     font-size:20px;
 }
 
-.inputBox,
+.input,
 .btn{
     font-size:22px;
 }
@@ -134,102 +135,104 @@ body{
 
 <div class="container">
 
-    <!-- صفحة الإدخال -->
+<!-- الصفحة الأولى -->
 
-    <div class="card" id="startPage">
+<div class="card" id="page1">
 
-        <img src="logo.png" class="logo">
+<img src="logo.png" class="logo">
 
-        <div class="title">
-            عيد أضحى مبارك
-        </div>
+<div class="title">
+عيد أضحى مبارك
+</div>
 
-        <div class="text">
-            أكاديمية العرب للإطفاء والسلامة والأمن<br>
-            تهنئكم بحلول عيد الأضحى المبارك
-        </div>
+<div class="text">
+أكاديمية العرب للإطفاء والسلامة والأمن<br>
+تهنئكم بحلول عيد الأضحى المبارك
+</div>
 
-        <input
-            type="text"
-            id="userName"
-            class="inputBox"
-            placeholder="اكتب الاسم الكامل"
-        >
+<input
+type="text"
+id="username"
+class="input"
+placeholder="اكتب الاسم الكامل"
+>
 
-        <button class="btn" onclick="showGreeting()">
-            إنشاء المعايدة
-        </button>
+<button class="btn" onclick="openGreeting()">
+إنشاء المعايدة
+</button>
 
-    </div>
+</div>
 
+<!-- صفحة المعايدة -->
 
+<div class="card hidden" id="page2">
 
-    <!-- صفحة المعايدة -->
+<img src="logo.png" class="logo">
 
-    <div class="card hidden" id="greetingPage">
+<div class="title">
+عيد أضحى مبارك
+</div>
 
-        <img src="logo.png" class="logo">
+<div class="text">
+تتقدم أكاديمية العرب للإطفاء والسلامة والأمن<br>
+بأصدق التهاني والتبريكات<br>
+بمناسبة عيد الأضحى المبارك
+</div>
 
-        <div class="title">
-            عيد أضحى مبارك
-        </div>
+<div class="name" id="personName">
+أحمد عبد الستار
+</div>
 
-        <div class="text">
-            تتقدم أكاديمية العرب للإطفاء والسلامة والأمن<br>
-            بأصدق التهاني والتبريكات<br>
-            بمناسبة عيد الأضحى المبارك
-        </div>
+<div class="footer">
+كل عام وأنتم بخير
+</div>
 
-        <div class="name" id="finalName">
-            أحمد عبد الستار
-        </div>
+<button class="btn share" onclick="shareGreeting()">
+مشاركة المعايدة
+</button>
 
-        <div class="footer">
-            كل عام وأنتم بخير
-        </div>
+<div class="small">
+AFSSAC Academy
+</div>
 
-        <button class="btn share" onclick="shareCard()">
-            مشاركة المعايدة
-        </button>
-
-        <div class="small">
-            AFSSAC Academy
-        </div>
-
-    </div>
+</div>
 
 </div>
 
 <script>
 
-function showGreeting(){
+function openGreeting(){
 
-    let name = document.getElementById("userName").value;
+let name = document.getElementById("username").value;
 
-    if(name.trim() == ""){
-        alert("اكتب الاسم");
-        return;
-    }
-
-    document.getElementById("finalName").innerHTML = name;
-
-    document.getElementById("startPage").classList.add("hidden");
-
-    document.getElementById("greetingPage").classList.remove("hidden");
+if(name.trim() == ""){
+alert("اكتب الاسم");
+return;
 }
 
-function shareCard(){
+document.getElementById("personName").innerHTML = name;
 
-    if(navigator.share){
+document.getElementById("page1").classList.add("hidden");
 
-        navigator.share({
-            title:'معايدة عيد الأضحى',
-            text:'كل عام وأنتم بخير'
-        });
+document.getElementById("page2").classList.remove("hidden");
 
-    }else{
-        alert("المشاركة غير مدعومة على هذا الجهاز");
-    }
+}
+
+function shareGreeting(){
+
+if(navigator.share){
+
+navigator.share({
+title:"معايدة عيد الأضحى",
+text:"كل عام وأنتم بخير"
+});
+
+}else{
+
+alert("المشاركة غير مدعومة");
+
+}
+
 }
 
 </script>
