@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>معايدة عيد الأضحى - أفساك</title>
+<title>معايدة عيد الأضحى - AFSSAC</title>
 
 <style>
 body{
     margin:0;
-    padding:0;
     font-family:Tahoma, Arial;
     background:#f5f5f5;
     display:flex;
@@ -24,25 +23,11 @@ body{
 }
 
 .card{
-    position:relative;
     background:white;
     border-radius:25px;
-    overflow:hidden;
+    padding:30px 25px;
     box-shadow:0 5px 25px rgba(0,0,0,0.15);
     text-align:center;
-    padding:25px 20px;
-}
-
-.makkah{
-    position:absolute;
-    inset:0;
-    background:url('https://upload.wikimedia.org/wikipedia/commons/9/99/Kaaba_Masjid_Al_Haram_Makkah.jpg') center/cover;
-    opacity:0.08;
-}
-
-.content{
-    position:relative;
-    z-index:2;
 }
 
 .logo{
@@ -51,31 +36,30 @@ body{
 }
 
 h1{
-    color:#b48a00;
-    margin:10px 0;
-    font-size:30px;
-}
-
-h2{
-    color:#222;
-    font-size:24px;
-    margin:20px 0;
-    line-height:1.8;
+    color:#b88a00;
+    margin-bottom:20px;
 }
 
 p{
-    color:#555;
-    font-size:18px;
+    font-size:24px;
     line-height:1.8;
+    color:#333;
+}
+
+.name{
+    font-size:38px;
+    font-weight:bold;
+    color:#111;
+    margin:25px 0;
 }
 
 input{
     width:100%;
     padding:15px;
     border-radius:12px;
-    border:2px solid #ddd;
-    font-size:18px;
-    margin-top:15px;
+    border:1px solid #ccc;
+    font-size:20px;
+    margin-top:20px;
     box-sizing:border-box;
     text-align:center;
 }
@@ -83,32 +67,31 @@ input{
 button{
     width:100%;
     padding:15px;
-    margin-top:15px;
     border:none;
     border-radius:12px;
-    font-size:18px;
+    margin-top:15px;
+    font-size:20px;
     cursor:pointer;
-    transition:0.3s;
+    font-weight:bold;
 }
 
-.generate{
-    background:#b48a00;
+.create{
+    background:#b88a00;
     color:white;
 }
 
-.generate:hover{
-    background:#967300;
-}
-
 .share{
-    background:#25D366;
+    background:#2ecc71;
     color:white;
 }
 
 .footer{
     margin-top:25px;
-    color:#777;
-    font-size:15px;
+    color:#666;
+}
+
+#cardPage{
+    display:none;
 }
 </style>
 </head>
@@ -117,86 +100,89 @@ button{
 
 <div class="container">
 
-<div class="card">
+    <!-- الصفحة الأولى -->
+    <div class="card" id="homePage">
 
-<div class="makkah"></div>
+        <img src="logo.png" class="logo">
 
-<div class="content">
+        <h1>عيد أضحى مبارك</h1>
 
-<img src="logo.png" class="logo">
+        <p>
+            أكاديمية العرب للإطفاء والسلامة والأمن<br>
+            تهنئكم بحلول عيد الأضحى المبارك
+        </p>
 
-<h1>عيد أضحى مبارك</h1>
+        <input type="text" id="userName" placeholder="اكتب الاسم الكامل">
 
-<p>
-تتقدم أكاديمية العرب للإطفاء والسلامة والأمن<br>
-بأصدق التهاني والتبريكات<br>
-بمناسبة عيد الأضحى المبارك
-</p>
+        <button class="create" onclick="createCard()">
+            إنشاء المعايدة
+        </button>
 
-<h2 id="greetingName">
-كل عام وأنتم بخير
-</h2>
+    </div>
 
-<input type="text" id="nameInput" placeholder="اكتب الاسم الكامل هنا">
+    <!-- صفحة المعايدة -->
+    <div class="card" id="cardPage">
 
-<button class="generate" onclick="generateGreeting()">
-إنشاء المعايدة
-</button>
+        <img src="logo.png" class="logo">
 
-<button class="share" onclick="shareGreeting()">
-مشاركة المعايدة
-</button>
+        <h1>عيد أضحى مبارك</h1>
 
-<div class="footer">
-AFSSAC Academy
-</div>
+        <p>
+            تتقدم أكاديمية العرب للإطفاء والسلامة والأمن<br>
+            بأصدق التهاني والتبريكات<br>
+            بمناسبة عيد الأضحى المبارك
+        </p>
 
-</div>
-</div>
+        <div class="name" id="displayName"></div>
+
+        <p>
+            كل عام وأنتم بخير
+        </p>
+
+        <button class="share" onclick="shareCard()">
+            مشاركة المعايدة
+        </button>
+
+        <div class="footer">
+            AFSSAC Academy
+        </div>
+
+    </div>
+
 </div>
 
 <script>
 
-function generateGreeting(){
+function createCard(){
 
-let name = document.getElementById("nameInput").value;
+    let name = document.getElementById("userName").value;
 
-if(name.trim() === ""){
-    alert("من فضلك اكتب الاسم");
-    return;
+    if(name.trim() === ""){
+        alert("من فضلك اكتب الاسم");
+        return;
+    }
+
+    let url = window.location.pathname + "?name=" + encodeURIComponent(name);
+
+    window.location.href = url;
 }
 
-document.getElementById("greetingName").innerHTML =
-"الأستاذ / " + name + "<br>كل عام وأنتم بخير";
+function shareCard(){
 
-let url = window.location.origin + window.location.pathname + "?name=" + encodeURIComponent(name);
+    navigator.clipboard.writeText(window.location.href);
 
-window.history.replaceState({},'',url);
-
+    alert("تم نسخ رابط المعايدة");
 }
-
-function shareGreeting(){
-
-navigator.clipboard.writeText(window.location.href);
-
-alert("تم نسخ رابط المعايدة");
-}
-
-window.onload = function(){
 
 const params = new URLSearchParams(window.location.search);
-
 const name = params.get("name");
 
 if(name){
 
-document.getElementById("greetingName").innerHTML =
-"الأستاذ / " + name + "<br>كل عام وأنتم بخير";
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("cardPage").style.display = "block";
 
-document.getElementById("nameInput").value = name;
-
-}
-
+    document.getElementById("displayName").innerText = name;
 }
 
 </script>
