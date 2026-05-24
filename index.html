@@ -2,253 +2,184 @@
 <html lang="ar" dir="rtl">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معايدة عيد الأضحى</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
 
-<title>معايدة عيد الأضحى</title>
+        body {
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-<style>
+        /* الصفحة الأولى (صندوق إدخال البيانات) */
+        .first-page {
+            width: 100%;
+            max-width: 450px;
+            background: #fff;
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: block; /* تظهر أولاً */
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Tajawal,sans-serif;
-}
+        /* اللوجو */
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
 
-body{
-    background:#f5f5f5;
-}
+        /* العنوان */
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #000;
+        }
 
-/* الصفحة الأولى */
+        /* حقل الإدخال */
+        input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            font-size: 18px;
+            outline: none;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
 
-.first-page{
-    width:100%;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-}
+        /* الأزرار */
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
 
-.box{
-    width:100%;
-    max-width:450px;
-    background:#fff;
-    padding:30px 20px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 0 15px rgba(0,0,0,0.1);
-}
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-/* اللوجو */
+        .show-btn {
+            background: #0d5c3f;
+            color: #fff;
+        }
 
-.logo{
-    width:120px;
-    margin-bottom:20px;
-}
+        .whatsapp-btn {
+            background: #25D366;
+            color: #fff;
+        }
 
-/* العنوان */
+        /* الصفحة الثانية (الكارت) - مخفية تماماً في البداية */
+        .second-page {
+            display: none; 
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+        }
 
-.title{
-    font-size:26px;
-    font-weight:bold;
-    margin-bottom:25px;
-    color:#000;
-}
+        .second-page img {
+            width: 100%;
+            display: block;
+        }
 
-/* الإدخال */
-
-input{
-    width:100%;
-    padding:15px;
-    border-radius:12px;
-    border:1px solid #ccc;
-    font-size:18px;
-    outline:none;
-    margin-bottom:20px;
-}
-
-/* الأزرار */
-
-.buttons{
-    display:flex;
-    gap:10px;
-}
-
-button{
-    flex:1;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    font-size:17px;
-    cursor:pointer;
-}
-
-.show-btn{
-    background:#0d5c3f;
-    color:#fff;
-}
-
-.whatsapp-btn{
-    background:#25D366;
-    color:#fff;
-}
-
-/* الصفحة الثانية */
-
-.second-page{
-    width:100%;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-}
-
-/* كارت المعايدة */
-
-.card{
-    width:100%;
-    max-width:500px;
-    position:relative;
-}
-
-.card img{
-    width:100%;
-    display:block;
-    border-radius:20px;
-}
-
-/* الاسم فوق التاريخ الموجود في الصورة */
-
-.name-box{
-    position:absolute;
-    bottom:85px;
-    width:100%;
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-    color:#000;
-}
-
-</style>
-
+        /* مكان الاسم فوق خط الـ 1447 هـ بدقة */
+        .name-box {
+            position: absolute;
+            bottom: 13%; /* متموضعة بنسبة مئوية لضمان ثباتها فوق التاريخ في كل الشاشات */
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            padding: 0 10px;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- الصفحة الأولى -->
+    <section class="first-page" id="firstPage">
+        <img src="logo.png" class="logo" alt="الشعار">
 
-<section class="first-page">
+        <div class="title">
+            معايدة عيد الأضحى المبارك
+        </div>
 
-<div class="box">
+        <input type="text" id="nameInput" placeholder="اكتب الاسم هنا">
 
-<!-- اللوجو -->
-<img src="logo.png" class="logo">
+        <div class="buttons">
+            <button class="show-btn" onclick="showGreeting()">عرض المعايدة</button>
+            <button class="whatsapp-btn" onclick="shareWhatsApp()">واتساب</button>
+        </div>
+    </section>
 
-<!-- العنوان -->
-<div class="title">
-معايدة عيد الأضحى المبارك
-</div>
+    <section class="second-page" id="secondPage">
+        <img src="Card.jpg" alt="بطاقة التهنئة">
+        <div class="name-box" id="userName"></div>
+    </section>
 
-<!-- إدخال الاسم -->
-<input
-type="text"
-id="nameInput"
-placeholder="اكتب الاسم هنا">
+    <script>
+        function showGreeting() {
+            let enteredName = document.getElementById("nameInput").value.trim();
 
-<!-- الأزرار -->
-<div class="buttons">
+            if (enteredName === "") {
+                alert("الرجاء كتابة الاسم أولاً لعرض المعايدة.");
+                return;
+            }
 
-<button
-class="show-btn"
-onclick="showGreeting()">
-عرض المعايدة
-</button>
+            // وضع الاسم في الكارت
+            document.getElementById("userName").innerText = enteredName;
 
-<a
-id="whatsappBtn"
-target="_blank"
-style="flex:1;">
+            // السحر هنا: إخفاء صفحة الإدخال تماماً وإظهار صفحة الكارت مكانها
+            document.getElementById("firstPage").style.display = "none";
+            document.getElementById("secondPage").style.display = "block";
+        }
 
-<button
-class="whatsapp-btn"
-onclick="shareWhatsApp()"
-style="width:100%;">
-واتساب
-</button>
+        function shareWhatsApp() {
+            let enteredName = document.getElementById("nameInput").value.trim();
 
-</a>
+            if (enteredName === "") {
+                alert("الرجاء كتابة الاسم أولاً للمشاركة عبر واتساب.");
+                return;
+            }
 
-</div>
+            // يأخذ رابط موقعك الحالي المنشور تلقائياً
+            let currentUrl = window.location.href; 
 
-</div>
+            let message = `🌙 *كل عام وأنتم بخير*\n\nتفضل بقبول تهنئة عيد الأضحى المبارك مقدمة من:\n*${enteredName}*\n\nلرؤية المعايدة الخاصة بك افتح الرابط التالي:\n${currentUrl}`;
 
-</section>
-
-<!-- الصفحة الثانية -->
-
-<section class="second-page">
-
-<div class="card">
-
-<!-- صورة المعايدة -->
-<img src="Card.jpg">
-
-<!-- الاسم -->
-<div
-class="name-box"
-id="userName">
-</div>
-
-</div>
-
-</section>
-
-<script>
-
-function showGreeting(){
-
-    let enteredName =
-    document.getElementById("nameInput").value;
-
-    document.getElementById("userName")
-    .innerText = enteredName;
-
-    
-    /* النزول للصفحة الثانية */
-
-    document.querySelector(".second-page")
-    .scrollIntoView({
-        behavior:"smooth"
-    });
-
-}
-
-function shareWhatsApp(){
-
-    let enteredName =
-    document.getElementById("nameInput").value;
-
-    let message =
-`🌙 كل عام وأنتم بخير
-
-معايدة عيد الأضحى من:
-${enteredName}`;
-
-    let link =
-    "https://wa.me/?text=" +
-    encodeURIComponent(message);
-
-    document.getElementById("whatsappBtn")
-    .href = link;
-
-}
-
-</script>
+            let link = "https://wa.me/?text=" + encodeURIComponent(message);
+            
+            window.open(link, '_blank');
+        }
+    </script>
 
 </body>
-
 </html>
