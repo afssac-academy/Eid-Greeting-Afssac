@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@1,700&family=Tajawal:wght@700&display=swap" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -17,22 +17,20 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
         }
 
         html, body {
             width: 100%;
             height: 100%;
-            margin: 0;
-            padding: 0;
             background: #f4f6f9;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* يمنع السكرول العشوائي أثناء حركة الستارة */
+            overflow: hidden;
+            font-family: 'Tajawal', sans-serif;
         }
 
-        /* ----- 1. هندسة الستارة الترحيبية (بدون اللوجو نهائياً) ----- */
+        /* ----- 1. هيكل الستارة المسرحية الاحترافي ----- */
         .curtain-wrapper {
             position: fixed;
             top: 0;
@@ -42,31 +40,51 @@
             z-index: 9999;
             overflow: hidden;
             display: flex;
+            perspective: 1000px;
         }
 
-        /* قماش الستارة بخطوط ظلال طولية فخمة وموزعة هندسياً */
+        /* تصميم القماش وثنايا الستارة الطولية */
         .curtain-half {
             width: 50%;
             height: 100%;
             background: linear-gradient(90deg, 
-                #063020 0%, #0d5c3f 15%, #08422d 30%, 
-                #0d5c3f 45%, #063020 60%, #0d5c3f 75%, 
-                #08422d 90%, #063020 100%);
-            background-size: 60px 100%; 
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
-            transition: transform 2s cubic-bezier(0.77, 0, 0.175, 1);
+                #05291b 0%, #0d5c3f 15%, #073825 30%, 
+                #0d5c3f 45%, #05291b 60%, #0d5c3f 75%, 
+                #073825 90%, #05291b 100%);
+            background-size: 50px 100%; 
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.7);
+            /* حركة تجمع وانكماش فيزيائية ناعمة جداً تحاكي الستارة الحقيقية */
+            transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                        opacity 2s ease;
             position: absolute;
             top: 0;
         }
 
-        .left-curtain { left: 0; transform: translateX(0); }
-        .right-curtain { right: 0; transform: translateX(0); }
+        /* تحديد نقطة الارتكاز الجانبية لكل طرف لضمان الانكماش نحو الحواف */
+        .left-curtain {
+            left: 0;
+            transform-origin: left center;
+            transform: scaleX(1);
+        }
 
-        /* حركة الانفتاح والانسحاب الجانبي الكامل لخارج الشاشة */
-        .curtain-wrapper.open .left-curtain { transform: translateX(-100%); }
-        .curtain-wrapper.open .right-curtain { transform: translateX(100%); }
+        .right-curtain {
+            right: 0;
+            transform-origin: right center;
+            transform: scaleX(1);
+        }
 
-        /* طبقة النص الترحيبي الثابتة بالسنتر (بدون أي لوجو) */
+        /* تأثير الستارة الحقيقي: الانكماش الجانبي الأفقي مع فتحة تدريجية مذهلة */
+        .curtain-wrapper.open .left-curtain {
+            transform: scaleX(0) skewY(-2deg);
+            opacity: 0.1;
+        }
+
+        .curtain-wrapper.open .right-curtain {
+            transform: scaleX(0) skewY(2deg);
+            opacity: 0.1;
+        }
+
+        /* حاوية النص الترحيبي (ثابتة في السنتر المطلق) */
         .curtain-welcome-box {
             position: absolute;
             top: 50%;
@@ -75,33 +93,35 @@
             z-index: 10005;
             text-align: center;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             padding: 0 20px;
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
+        /* الخط العربي الفخم والمائل المخصص للترحيب */
         .curtain-welcome-text {
+            font-family: 'Amiri', serif;
+            font-style: italic;
             color: #ffffff;
-            font-size: 32px; /* خط عريض ومميز */
+            font-size: 42px;
             font-weight: 700;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.85);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.9);
             white-space: nowrap;
         }
 
-        /* تلاشي النص الترحيبي بنعومة عند بدء انقسام الستارة */
+        /* تلاشي النص الترحيبي بنعومة عند بدء انقشاع الستارة */
         .curtain-wrapper.open .curtain-welcome-box {
             opacity: 0;
-            transform: translate(-50%, -55%) scale(0.9);
+            transform: translate(-50%, -55%) scale(0.85);
             pointer-events: none;
         }
 
-        /* إزالة طبقة الستارة تماماً من الكود بعد الفتح لتفعيل الأزرار */
         .curtain-wrapper.hide-completely {
             display: none !important;
         }
 
 
-        /* ----- 2. واجهة صندوق إدخال الاسم (تظهر بثبات بالداخل) ----- */
+        /* ----- 2. واجهة صندوق الاسم الداخلية (ثابتة وبدون تغيير) ----- */
         .first-page {
             width: 90%;
             max-width: 410px;
@@ -114,14 +134,13 @@
             opacity: 0;
             transform: translateY(15px);
             animation: showBoxForm 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-            animation-delay: 0.8s; /* تبدأ بالظهور المتناسق مع سحب الستارة */
+            animation-delay: 0.8s;
         }
 
         @keyframes showBoxForm {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ظهور اللوجو بشكل نظيف وبحواف بيضاء دائرية متناسقة داخل الصندوق */
         .first-page .logo {
             width: 110px;
             height: 110px;
@@ -172,7 +191,7 @@
         }
 
 
-        /* ----- 3. واجهة عرض بطاقة المعايدة النهائية ----- */
+        /* ----- 3. واجهة عرض بطاقة المعايدة وحفظها ----- */
         .second-page {
             display: none; 
             width: 100vw;
@@ -197,7 +216,6 @@
             display: block;
         }
 
-        /* وضع الاسم بالملي في مكانه المخصص فوق سطر التاريخ */
         .name-box {
             position: absolute;
             bottom: 9.5%; 
@@ -253,18 +271,18 @@
     </section>
 
     <script>
-        // تفعيل حركة انزلاق نصفي الستارة للخارج بعد ثانيتين من دخول الصفحة تلقائياً
+        // إطلاق حركة الانكماش والزم الحقيقي للستارة نحو الحواف بعد ثانيتين تلقائياً
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const curtainWrapper = document.getElementById('curtainWrapper');
                 curtainWrapper.classList.add('open');
                 
-                // تصفية طبقة الستارة تماماً لعدم حجب الأزرار، والسماح بالسكرول العادي
+                // إزالة طبقة الستارة تماماً لعدم حجب عناصر الشاشة
                 setTimeout(() => {
                     document.body.style.overflow = 'auto';
                     curtainWrapper.classList.add('hide-completely');
-                }, 2000); 
-            }, 2000); // بقاء الستارة مغلقة ثانيتين ليقرأ الزائر النص الترحيبي الواضح
+                }, 2200); 
+            }, 2000); 
         });
 
         function showGreeting() {
@@ -282,7 +300,6 @@
             window.scrollTo(0, 0);
         }
 
-        // دالة تحويل بطاقة التهنئة مع الاسم المكتوب إلى صورة وحفظها
         function downloadCard() {
             let enteredName = document.getElementById("nameInput").value.trim();
             const cardElement = document.getElementById('cardCapture');
