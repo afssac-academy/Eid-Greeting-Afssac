@@ -3,117 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>عيد الأضحى</title>
+<title>معايدة عيد الأضحى</title>
 
 <style>
 
 body{
-margin:0;
-padding:0;
-background:#f2f2f2;
-font-family:Tahoma;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+    margin:0;
+    padding:0;
+    font-family:Tahoma;
+    background:#f7f3ee;
+    display:flex;
+    justify-content:center;
 }
 
-.card{
-background:#fff;
-width:90%;
-max-width:500px;
-padding:40px 25px;
-border-radius:30px;
-text-align:center;
-box-shadow:0 0 20px rgba(0,0,0,0.1);
+.container{
+    width:100%;
+    max-width:700px;
+    padding:20px;
 }
 
-.logo{
-width:120px;
-margin-bottom:30px;
+.main-card{
+    background:white;
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 0 20px rgba(0,0,0,0.1);
 }
 
-.title{
-font-size:58px;
-font-weight:bold;
-color:#c39200;
-line-height:1.4;
-margin-bottom:25px;
+.top-image{
+    width:100%;
+    display:block;
 }
 
-.text{
-font-size:28px;
-line-height:1.8;
-color:#111;
+.content{
+    padding:25px;
+    text-align:center;
 }
 
-.name{
-font-size:65px;
-font-weight:bold;
-margin:40px 0;
-line-height:1.3;
+input{
+    width:100%;
+    padding:18px;
+    border-radius:15px;
+    border:2px solid #d4a54c;
+    font-size:22px;
+    margin-top:20px;
+    box-sizing:border-box;
+    text-align:center;
 }
 
-.input{
-width:100%;
-height:70px;
-border-radius:18px;
-border:1px solid #ccc;
-font-size:26px;
-text-align:center;
-margin-top:30px;
+button{
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:15px;
+    background:#1f5f3b;
+    color:white;
+    font-size:28px;
+    margin-top:20px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.btn{
-width:100%;
-height:70px;
-border:none;
-border-radius:18px;
-background:#c39200;
-color:#fff;
-font-size:28px;
-font-weight:bold;
-margin-top:20px;
-cursor:pointer;
+.result{
+    margin-top:30px;
+    display:none;
 }
 
-.hidden{
-display:none;
+.card-preview{
+    position:relative;
 }
 
-.footer{
-font-size:28px;
-margin-top:20px;
-}
-
-.share{
-background:#2ecc71;
-}
-
-.small{
-margin-top:35px;
-font-size:18px;
-color:#666;
-}
-
-@media(max-width:600px){
-
-.title{
-font-size:42px;
-}
-
-.text{
-font-size:20px;
+.card-preview img{
+    width:100%;
+    border-radius:20px;
 }
 
 .name{
-font-size:42px;
-}
-
-.footer{
-font-size:20px;
-}
-
+    position:absolute;
+    top:47%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:38px;
+    color:#b8860b;
+    font-weight:bold;
+    width:80%;
 }
 
 </style>
@@ -121,82 +93,57 @@ font-size:20px;
 
 <body>
 
-<!-- الصفحة الأولى -->
+<div class="container">
 
-<div class="card" id="start">
+<div class="main-card">
 
-<img src="logo.png" class="logo">
+<img src="Card.jpg" class="top-image">
 
-<div class="title">
-عيد أضحى مبارك
+<div class="content">
+
+<input type="text" id="username" placeholder="اكتب الاسم كاملا هنا">
+
+<button onclick="showCard()">عرض المعايدة</button>
+
+<div class="result" id="result">
+
+<div class="card-preview">
+
+<img src="Card.jpg">
+
+<div class="name" id="cardName">
+الاسم الكامل
 </div>
-
-<div class="text">
-أكاديمية العرب للإطفاء والسلامة والأمن<br>
-تهنئكم بحلول عيد الأضحى المبارك
-</div>
-
-<input
-type="text"
-id="username"
-class="input"
-placeholder="اكتب الاسم الكامل"
->
-
-<button class="btn" onclick="createCard()">
-إنشاء المعايدة
-</button>
 
 </div>
 
-<!-- صفحة المعايدة -->
-
-<div class="card hidden" id="greeting">
-
-<img src="logo.png" class="logo">
-
-<div class="title">
-عيد أضحى مبارك
 </div>
 
-<div class="text">
-تتقدم أكاديمية العرب للإطفاء والسلامة والأمن<br>
-بأصدق التهاني والتبريكات<br>
-بمناسبة عيد الأضحى المبارك
 </div>
 
-<div class="name" id="finalName"></div>
-
-<div class="footer">
-كل عام وأنتم بخير
-</div>
-
-<button class="btn share">
-مشاركة المعايدة
-</button>
-
-<div class="small">
-AFSSAC Academy
 </div>
 
 </div>
 
 <script>
 
-function createCard(){
+function showCard(){
 
-let name = document.getElementById("username").value;
+let name=document.getElementById("username").value;
 
-if(name.trim() == ""){
+if(name.trim()==""){
 alert("اكتب الاسم");
 return;
 }
 
-document.getElementById("finalName").innerHTML = name;
+document.getElementById("cardName").innerHTML=name;
 
-document.getElementById("start").classList.add("hidden");
+document.getElementById("result").style.display="block";
 
-document.getElementById("greeting").classList.remove("hidden");
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:'smooth'
+});
 
 }
 
