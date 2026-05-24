@@ -28,49 +28,73 @@
             align-items: center;
             padding: 0;
             margin: 0;
-            overflow: hidden; /* لمنع السكرول أثناء حركة الستارة */
+            overflow: hidden; /* يمنع الاسكرول تماماً وقت حركة الستارة */
         }
 
-        /* ----- تأثير الستارة الترحيبية ----- */
-        .curtain-overlay {
+        /* ----- تأثير الستارة الحقيقية (تنفتح لليمين واليسار) ----- */
+        .curtain-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #0d5c3f; /* لون هوية أفساك */
             z-index: 9999;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease, visibility 1s ease;
+            pointer-events: none; /* عشان ما تعطلش الضغط بعد ما تفتح */
+        }
+
+        .curtain-half {
+            width: 50%;
+            height: 100%;
+            background: #0d5c3f; /* لون هوية أفساك الأخضر */
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            pointer-events: auto;
+        }
+
+        .left-curtain {
+            transform: translateX(0);
+        }
+
+        .right-curtain {
+            transform: translateX(0);
+        }
+
+        /* حركات فتح الستارة للجانبين */
+        .curtain-container.open .left-curtain {
+            transform: translateX(100%); /* تتحرك لليسار في نظام الـ RTL */
+        }
+
+        .curtain-container.open .right-curtain {
+            transform: translateX(-100%); /* تتحرك لليمين في نظام الـ RTL */
+        }
+
+        /* الشعار في المنتصف فوق الستارتين */
+        .curtain-logo-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            text-align: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            pointer-events: auto;
         }
 
         .curtain-logo {
-            width: 150px;
-            animation: pulse 2s infinite ease-in-out;
+            width: 140px;
+            margin-bottom: 15px;
         }
 
         .curtain-text {
             color: #fff;
             font-size: 24px;
-            margin-top: 20px;
             font-weight: 700;
-            letter-spacing: 1px;
         }
 
-        /* حركة تلاشي الستارة */
-        .curtain-hidden {
+        .curtain-container.open .curtain-logo-box {
             opacity: 0;
             visibility: hidden;
-            pointer-events: none;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
         }
 
         /* ----- الصفحة الأولى ----- */
@@ -110,26 +134,16 @@
             color: #333;
         }
 
-        .buttons {
-            display: flex;
-            gap: 12px;
-        }
-
-        button {
-            flex: 1;
+        .show-btn {
+            background: #0d5c3f;
+            color: #fff;
+            width: 100%;
             padding: 15px;
             border: none;
             border-radius: 14px;
             font-size: 17px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .show-btn {
-            background: #0d5c3f;
-            color: #fff;
-            width: 100%; /* ليأخذ الزر المساحة كاملة بشكل أنيق */
         }
 
         /* ----- الصفحة الثانية ----- */
@@ -141,7 +155,6 @@
             padding: 10px;
         }
 
-        /* حاوية الكارت التي سيتم حفظها كصورة */
         .card-container {
             width: 100%;
             position: relative;
@@ -157,7 +170,7 @@
             display: block;
         }
 
-        /* موقع الاسم الموزون بالملي في المساحة البيضاء */
+        /* مكان الاسم الموزون بالملي وفوق الـ 1447 هـ */
         .name-box {
             position: absolute;
             bottom: 9.5%; 
@@ -171,12 +184,17 @@
             direction: rtl;
         }
 
-        /* زر الحفظ الجديد أسفل الكارت */
         .save-btn {
             background: #107c41;
             color: #fff;
             margin-top: 15px;
             width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
             box-shadow: 0 4px 12px rgba(16, 124, 65, 0.3);
         }
     </style>
@@ -184,18 +202,20 @@
 
 <body>
 
-    <div class="curtain-overlay" id="curtain">
-        <img src="logo.png" class="curtain-logo" alt="أفساك">
-        <div class="curtain-text">أهلاً بكم في أفساك</div>
+    <div class="curtain-container" id="curtainContainer">
+        <div class="curtain-logo-box">
+            <img src="logo.png" class="curtain-logo" alt="أفساك">
+            <div class="curtain-text">معايدة أفساك السنوية</div>
+        </div>
+        <div class="curtain-half left-curtain"></div>
+        <div class="curtain-half right-curtain"></div>
     </div>
 
     <section class="first-page" id="firstPage">
         <img src="logo.png" class="logo" alt="الشعار">
         <div class="title">معايدة أفساك السنوية</div>
         <input type="text" id="nameInput" placeholder="اكتب الاسم هنا" maxlength="40">
-        <div class="buttons">
-            <button class="show-btn" onclick="showGreeting()">عرض المعايدة</button>
-        </div>
+        <button class="show-btn" onclick="showGreeting()">عرض المعايدة</button>
     </section>
 
     <section class="second-page" id="secondPage">
@@ -203,19 +223,21 @@
             <img src="Card.jpg" alt="بطاقة التهنئة">
             <div class="name-box" id="userName"></div>
         </div>
-        
         <button class="save-btn" onclick="downloadCard()">حفظ المعايدة كصورة 💾</button>
     </section>
 
     <script>
-        // تشغيل تأثير الستارة تلقائياً عند فتح اللينك
+        // دالة تشغيل حركة فتح الستارة للجانبين تلقائياً بعد ثانية ونصف
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                const curtain = document.getElementById('curtain');
-                curtain.classList.add('curtain-hidden');
-                // السماح بالسكرول بعد انتهاء التأثير
-                document.body.style.overflow = 'auto'; 
-            }, 2200); // تظل الستارة ثانيتين ثم تختفي بسلاسة
+                const curtainContainer = document.getElementById('curtainContainer');
+                curtainContainer.classList.add('open');
+                
+                // تفعيل الاسكرول بعد اختفاء الستارة تماماً من الشاشة
+                setTimeout(() => {
+                    document.body.style.overflow = 'auto';
+                }, 1500);
+            }, 1500); // تظل ثابتة لمدة ثانية ونصف كافتتاحية فخمة ثم تفتح
         });
 
         function showGreeting() {
@@ -233,20 +255,18 @@
             window.scrollTo(0, 0);
         }
 
-        // دالة تحويل الكارت لـ صورة وتحميلها فوراً
+        // دالة تحويل الكارت لصورة وحفظها
         function downloadCard() {
             let enteredName = document.getElementById("nameInput").value.trim();
             const cardElement = document.getElementById('cardCapture');
-            
-            // إشعار المستخدم ببدء الحفظ
             const saveBtn = document.querySelector('.save-btn');
+            
             saveBtn.innerText = "جاري التحضير والحفظ...";
             saveBtn.style.opacity = "0.7";
 
-            // التقاط الحاوية بدقة وجودة عالية تناسب الموبايل
             html2canvas(cardElement, {
                 useCORS: true,
-                scale: 3, // رفع جودة الصورة المنتجة لتكون حادة وممتازة عند المشاركة
+                scale: 3, 
                 allowTaint: true
             }).then(canvas => {
                 const image = canvas.toDataURL('image/jpeg', 1.0);
@@ -255,7 +275,6 @@
                 link.href = image;
                 link.click();
 
-                // إعادة الزر لشكلة الطبيعي
                 saveBtn.innerText = "حفظ المعايدة كصورة 💾";
                 saveBtn.style.opacity = "1";
             }).catch(err => {
