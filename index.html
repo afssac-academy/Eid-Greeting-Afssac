@@ -22,16 +22,16 @@ body{
 
 .container{
     width:100%;
-    max-width:500px;
+    max-width:520px;
     padding:20px;
 }
 
 .card{
-    background:#fff;
+    background:#ffffff;
     border-radius:30px;
     padding:40px 30px;
     text-align:center;
-    box-shadow:0 8px 30px rgba(0,0,0,0.12);
+    box-shadow:0 10px 35px rgba(0,0,0,0.12);
 }
 
 .logo{
@@ -41,22 +41,21 @@ body{
 
 h1{
     color:#b88900;
-    font-size:55px;
-    margin-bottom:30px;
+    font-size:58px;
+    margin-bottom:35px;
 }
 
-p{
+.text{
     color:#222;
-    font-size:22px;
+    font-size:24px;
     line-height:2;
-    margin:0;
 }
 
 .name{
-    font-size:60px;
+    font-size:62px;
     font-weight:bold;
     color:#000;
-    margin:40px 0;
+    margin:45px 0;
 }
 
 input{
@@ -64,10 +63,10 @@ input{
     padding:18px;
     border-radius:15px;
     border:1px solid #ccc;
-    font-size:22px;
-    box-sizing:border-box;
+    font-size:24px;
     text-align:center;
     margin-top:30px;
+    box-sizing:border-box;
 }
 
 button{
@@ -76,7 +75,7 @@ button{
     border:none;
     border-radius:15px;
     margin-top:20px;
-    font-size:22px;
+    font-size:24px;
     font-weight:bold;
     cursor:pointer;
 }
@@ -94,7 +93,7 @@ button{
 .footer{
     margin-top:35px;
     color:#666;
-    font-size:18px;
+    font-size:20px;
 }
 
 #cardPage{
@@ -115,10 +114,10 @@ button{
 
         <h1>عيد أضحى مبارك</h1>
 
-        <p>
+        <div class="text">
             أكاديمية العرب للإطفاء والسلامة والأمن<br>
             تهنئكم بحلول عيد الأضحى المبارك
-        </p>
+        </div>
 
         <input type="text" id="userName" placeholder="اكتب الاسم الكامل">
 
@@ -135,18 +134,17 @@ button{
 
         <h1>عيد أضحى مبارك</h1>
 
-        <p>
-            تتقدم أكاديمية العرب للإطفاء<br>
-            والسلامة والأمن<br>
+        <div class="text">
+            تتقدم أكاديمية العرب للإطفاء والسلامة والأمن<br>
             بأصدق التهاني والتبريكات<br>
             بمناسبة عيد الأضحى المبارك
-        </p>
+        </div>
 
         <div class="name" id="displayName"></div>
 
-        <p>
+        <div class="text">
             كل عام وأنتم بخير
-        </p>
+        </div>
 
         <button class="share-btn" onclick="shareCard()">
             مشاركة المعايدة
@@ -167,13 +165,15 @@ function createCard(){
     let name = document.getElementById("userName").value;
 
     if(name.trim() === ""){
-        alert("من فضلك اكتب الاسم");
+        alert("من فضلك اكتب الاسم الكامل");
         return;
     }
 
-    let url = window.location.pathname + "?name=" + encodeURIComponent(name);
-
-    window.location.href = url;
+    window.location.href =
+    window.location.origin +
+    window.location.pathname +
+    "?name=" +
+    encodeURIComponent(name);
 }
 
 function shareCard(){
@@ -184,11 +184,13 @@ function shareCard(){
 }
 
 const params = new URLSearchParams(window.location.search);
+
 const name = params.get("name");
 
 if(name){
 
     document.getElementById("homePage").style.display = "none";
+
     document.getElementById("cardPage").style.display = "block";
 
     document.getElementById("displayName").innerText = name;
