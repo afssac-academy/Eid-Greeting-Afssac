@@ -28,11 +28,11 @@
             align-items: center;
             padding: 0;
             margin: 0;
-            overflow: hidden; /* منع الاسكرول تماماً وقت حركة الستارة */
+            overflow: hidden; /* لمنع السكرول أثناء حركة الستارة */
         }
 
-        /* ----- الستارة الواقعية (تأثير القماش والكشكشة) ----- */
-        .curtain-container {
+        /* ----- 1. واجهة الستارة الترحيبية الكاملة ----- */
+        .curtain-wrapper {
             position: fixed;
             top: 0;
             left: 0;
@@ -43,74 +43,64 @@
             pointer-events: none;
         }
 
+        /* تأثير الستارة القماشية المنقسمة */
         .curtain-half {
             width: 50%;
             height: 100%;
-            /* عمل تأثير ثنيات القماش الظلية باستخدام الـ Gradients */
             background: linear-gradient(90deg, 
                 #083b28 0%, #0d5c3f 12%, #0a4731 25%, 
                 #0d5c3f 38%, #083b28 50%, #0d5c3f 62%, 
                 #0a4731 75%, #0d5c3f 88%, #083b28 100%);
-            background-size: 20% 100%; /* تكرار الثنيات لتبدو كالقماش */
+            background-size: 20% 100%;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
             pointer-events: auto;
-            /* تحديد نقطة الارتكاز على الأطراف عشان الكشكشة تسحب للجنب */
             transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
-        /* الستارة اليسرى ترتكز على اليسار */
-        .left-curtain {
-            transform-origin: left center;
-        }
+        .left-curtain { transform-origin: left center; }
+        .right-curtain { transform-origin: right center; }
 
-        /* الستارة اليمنى ترتكز على اليمين */
-        .right-curtain {
-            transform-origin: right center;
-        }
+        /* حركة فتح الستارة الحقيقية (كشكشة وانكماش للأطراف) */
+        .curtain-wrapper.open .left-curtain { transform: scaleX(0) skewY(-5deg); opacity: 0; }
+        .curtain-wrapper.open .right-curtain { transform: scaleX(0) skewY(5deg); opacity: 0; }
 
-        /* تأثير السحب والكشكشة الحقيقي (تتقوس وتنكمش للطرف) */
-        .curtain-container.open .left-curtain {
-            transform: scaleX(0) skewY(-5deg);
-            opacity: 0.9;
-        }
-
-        .curtain-container.open .right-curtain {
-            transform: scaleX(0) skewY(5deg);
-            opacity: 0.9;
-        }
-
-        /* الشعار والنص في المنتصف فوق الستارة */
-        .curtain-logo-box {
+        /* محتويات فوق الستارة (قبل الفتح) */
+        .curtain-welcome-box {
             position: absolute;
-            top: 45%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10000;
             text-align: center;
-            transition: opacity 0.6s ease, transform 0.8s ease;
+            width: 100%;
+            transition: opacity 0.6s ease, transform 0.6s ease;
             pointer-events: auto;
         }
 
-        .curtain-logo {
-            width: 130px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3));
+        /* جعل اللوجو يظهر شفافاً بدون خلفية بيضاء على الستارة */
+        .curtain-welcome-box img {
+            width: 140px;
+            margin-bottom: 20px;
+            mix-blend-mode: multiply; /* ميزة ذكية لإخفاء أي خلفية بيضاء زائدة باللوجو */
+            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.4));
         }
 
-        .curtain-text {
+        .curtain-welcome-text {
             color: #fff;
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        /* اختفاء الشعار أول ما الستارة تبدأ تفتح */
-        .curtain-container.open .curtain-logo-box {
+        /* اختفاء المحتوى الترحيبي مع بدء الفتح */
+        .curtain-wrapper.open .curtain-welcome-box {
             opacity: 0;
             transform: translate(-50%, -60%) scale(0.8);
+            pointer-events: none;
         }
 
-        /* ----- الصفحة الأولى (صندوق كتابة الاسم) ----- */
+
+        /* ----- 2. الصفحة الأولى (مربع إدخال الاسم بعد فتح الستارة) ----- */
         .first-page {
             width: 90%;
             max-width: 420px;
@@ -123,12 +113,12 @@
             z-index: 1;
         }
 
-        .logo {
+        .first-page .logo {
             width: 110px;
             margin-bottom: 20px;
         }
 
-        .title {
+        .first-page .title {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 30px;
@@ -159,7 +149,8 @@
             cursor: pointer;
         }
 
-        /* ----- الصفحة الثانية (الكارت وزر الحفظ) ----- */
+
+        /* ----- 3. الصفحة الثانية (عرض الكارت النهائي وحفظه) ----- */
         .second-page {
             display: none; 
             width: 100vw;
@@ -179,11 +170,11 @@
 
         .card-container img {
             width: 100%;
-            height: auto;
+            height: auto; /* الحفاظ الكامل على أبعاد الصورة الأصلية ومنع المط */
             display: block;
         }
 
-        /* مكان الاسم الموزون بالملي في المساحة البيضاء فوق التاريخ */
+        /* مكان الاسم الموزون بدقة بالغة فوق الـ 1447 هـ */
         .name-box {
             position: absolute;
             bottom: 9.5%; 
@@ -215,10 +206,10 @@
 
 <body>
 
-    <div class="curtain-container" id="curtainContainer">
-        <div class="curtain-logo-box">
-            <img src="logo.png" class="curtain-logo" alt="أفساك">
-            <div class="curtain-text">معايدة أفساك السنوية</div>
+    <div class="curtain-wrapper" id="curtainWrapper">
+        <div class="curtain-welcome-box">
+            <img src="logo.png" alt="لوجو أفساك">
+            <div class="curtain-text curtain-welcome-text">مرحبا بكم في أفساك</div>
         </div>
         <div class="curtain-half left-curtain"></div>
         <div class="curtain-half right-curtain"></div>
@@ -240,17 +231,17 @@
     </section>
 
     <script>
-        // تشغيل الحركة فور تحميل الموقع بتأثير الكشكشة والسحب
+        // إطلاق حركة فتح الستارة تلقائياً بعد ثانية ونصف من دخول الموقع
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                const curtainContainer = document.getElementById('curtainContainer');
-                curtainContainer.classList.add('open');
+                const curtainWrapper = document.getElementById('curtainWrapper');
+                curtainWrapper.classList.add('open');
                 
-                // السماح بالتصفح الطبيعي بعد فتح الستارة بالكامل
+                // السماح بالسكرول بعد انتهاء الحركة تماماً
                 setTimeout(() => {
                     document.body.style.overflow = 'auto';
                 }, 1800);
-            }, 1200); // تظل الستارة ثابتة ثانية وجزء لتأمل الهوية ثم تنكمش
+            }, 1500); // تظل الستارة واللوجو والترحيب ظاهرين لثانية ونصف ثم يبدأ الفتح
         });
 
         function showGreeting() {
@@ -268,7 +259,7 @@
             window.scrollTo(0, 0);
         }
 
-        // دالة حفظ الكارت كصورة بجودة عالية
+        // تحويل الكارت وصنع الصورة للتحميل بجودة عالية
         function downloadCard() {
             let enteredName = document.getElementById("nameInput").value.trim();
             const cardElement = document.getElementById('cardCapture');
