@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معايدة عيد الأضحى</title>
+    <title>معايدة أفساك السنوية</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -24,62 +24,73 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
         }
 
         /* الصفحة الأولى (صندوق إدخال البيانات) */
         .first-page {
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
             background: #fff;
-            padding: 30px 20px;
-            border-radius: 20px;
+            padding: 35px 25px;
+            border-radius: 24px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            display: block; /* تظهر أولاً */
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            display: block;
         }
 
         /* اللوجو */
         .logo {
-            width: 120px;
+            width: 110px;
             margin-bottom: 20px;
         }
 
-        /* العنوان */
+        /* العنوان الجديد */
         .title {
             font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 25px;
-            color: #000;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #0b1a30;
         }
 
         /* حقل الإدخال */
         input {
             width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #ccc;
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid #dcdcdc;
             font-size: 18px;
             outline: none;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: center;
             color: #333;
+            background: #fdfdfd;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #0d5c3f;
         }
 
         /* الأزرار */
         .buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         button {
             flex: 1;
-            padding: 14px;
+            padding: 15px;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 17px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         .show-btn {
@@ -92,33 +103,39 @@
             color: #fff;
         }
 
-        /* الصفحة الثانية (الكارت) - مخفية تماماً في البداية */
+        /* الصفحة الثانية (الكارت) - محسنة بالكامل للموبايل وطول الشاشة */
         .second-page {
             display: none; 
             width: 100%;
-            max-width: 500px;
+            max-width: 480px; /* متناسق تماماً مع أبعاد الهواتف الذكية */
             position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-radius: 20px;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
         .second-page img {
             width: 100%;
+            max-height: 88vh; /* يجعل الكارت يأخذ مساحة طولية ممتازة من شاشة الجوال */
+            object-fit: contain;
             display: block;
         }
 
-        /* مكان الاسم فوق خط الـ 1447 هـ بدقة */
+        /* تنسيق وموقع الاسم الجديد ليكون بالأسفل في الفراغ النظيف */
         .name-box {
             position: absolute;
-            bottom: 13%; /* متموضعة بنسبة مئوية لضمان ثباتها فوق التاريخ في كل الشاشات */
+            bottom: 14.5%; /* نزول الاسم ليتناسب تماماً فوق كلمة 1447 هـ دون التداخل مع تصميم الكعبة */
             left: 0;
             width: 100%;
             text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #000;
-            padding: 0 10px;
+            font-size: 28px; /* تكبير حجم الخط ليكون واضحاً ومهيباً */
+            font-weight: 700;
+            color: #111; /* لون داكن صريح يتطابق مع نصوص الكارت المطبوعة */
+            padding: 0 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>
@@ -129,10 +146,10 @@
         <img src="logo.png" class="logo" alt="الشعار">
 
         <div class="title">
-            معايدة عيد الأضحى المبارك
+            معايدة أفساك السنوية
         </div>
 
-        <input type="text" id="nameInput" placeholder="اكتب الاسم هنا">
+        <input type="text" id="nameInput" placeholder="اكتب الاسم هنا" maxlength="40">
 
         <div class="buttons">
             <button class="show-btn" onclick="showGreeting()">عرض المعايدة</button>
@@ -154,10 +171,10 @@
                 return;
             }
 
-            // وضع الاسم في الكارت
+            // طباعة الاسم داخل الكارت
             document.getElementById("userName").innerText = enteredName;
 
-            // السحر هنا: إخفاء صفحة الإدخال تماماً وإظهار صفحة الكارت مكانها
+            // إخفاء صفحة الإدخال وإظهار الكارت بحجمه الجديد
             document.getElementById("firstPage").style.display = "none";
             document.getElementById("secondPage").style.display = "block";
         }
@@ -170,7 +187,6 @@
                 return;
             }
 
-            // يأخذ رابط موقعك الحالي المنشور تلقائياً
             let currentUrl = window.location.href; 
 
             let message = `🌙 *كل عام وأنتم بخير*\n\nتفضل بقبول تهنئة عيد الأضحى المبارك مقدمة من:\n*${enteredName}*\n\nلرؤية المعايدة الخاصة بك افتح الرابط التالي:\n${currentUrl}`;
