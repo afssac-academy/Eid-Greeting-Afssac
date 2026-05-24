@@ -1,21 +1,16 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>معايدة عيد الأضحى - أفساك</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
 <style>
-
 body{
     margin:0;
     padding:0;
-    font-family:'Cairo',sans-serif;
-    background:#f8f6ef;
+    font-family:Tahoma, Arial;
+    background:#f5f5f5;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -23,98 +18,98 @@ body{
 }
 
 .container{
-    width:95%;
-    max-width:700px;
+    width:100%;
+    max-width:420px;
+    padding:20px;
+}
+
+.card{
+    position:relative;
     background:white;
     border-radius:25px;
     overflow:hidden;
-    box-shadow:0 10px 30px rgba(0,0,0,0.15);
-    position:relative;
-}
-
-.hero{
-    position:relative;
-    padding:40px 20px;
+    box-shadow:0 5px 25px rgba(0,0,0,0.15);
     text-align:center;
-    background:linear-gradient(to bottom,#ffffff,#f7f2df);
+    padding:25px 20px;
 }
 
-.hero::before{
-    content:"";
+.makkah{
     position:absolute;
     inset:0;
-    background:url('Card.jpg') center center no-repeat;
-    background-size:cover;
+    background:url('https://upload.wikimedia.org/wikipedia/commons/9/99/Kaaba_Masjid_Al_Haram_Makkah.jpg') center/cover;
     opacity:0.08;
 }
 
-.logo{
-    width:120px;
+.content{
     position:relative;
     z-index:2;
+}
+
+.logo{
+    width:110px;
+    margin-bottom:15px;
 }
 
 h1{
-    position:relative;
-    z-index:2;
-    color:#8b6b00;
-    margin-top:20px;
-    font-size:34px;
+    color:#b48a00;
+    margin:10px 0;
+    font-size:30px;
 }
 
-.greeting{
-    position:relative;
-    z-index:2;
-    color:#444;
+h2{
+    color:#222;
     font-size:24px;
-    margin-top:15px;
-    line-height:2;
+    margin:20px 0;
+    line-height:1.8;
 }
 
-#displayName{
-    color:#b8860b;
-    font-weight:bold;
-}
-
-.input-box{
-    padding:30px 20px;
-    text-align:center;
+p{
+    color:#555;
+    font-size:18px;
+    line-height:1.8;
 }
 
 input{
-    width:85%;
+    width:100%;
     padding:15px;
-    border-radius:15px;
-    border:1px solid #ddd;
+    border-radius:12px;
+    border:2px solid #ddd;
     font-size:18px;
-    font-family:'Cairo',sans-serif;
-    outline:none;
+    margin-top:15px;
+    box-sizing:border-box;
+    text-align:center;
 }
 
 button{
+    width:100%;
+    padding:15px;
     margin-top:15px;
-    padding:14px 30px;
     border:none;
-    border-radius:15px;
-    background:#b8860b;
-    color:white;
+    border-radius:12px;
     font-size:18px;
     cursor:pointer;
-    font-family:'Cairo',sans-serif;
     transition:0.3s;
 }
 
-button:hover{
-    background:#9d7508;
+.generate{
+    background:#b48a00;
+    color:white;
+}
+
+.generate:hover{
+    background:#967300;
+}
+
+.share{
+    background:#25D366;
+    color:white;
 }
 
 .footer{
-    text-align:center;
-    padding:20px;
+    margin-top:25px;
     color:#777;
     font-size:15px;
 }
-
 </style>
 </head>
 
@@ -122,71 +117,86 @@ button:hover{
 
 <div class="container">
 
-    <div class="hero">
+<div class="card">
 
-        <img src="logo.png" class="logo">
+<div class="makkah"></div>
 
-        <h1>عيد أضحى مبارك</h1>
+<div class="content">
 
-        <div class="greeting">
-            تتقدم أكاديمية أفساك للإطفاء والسلامة والأمن<br>
-            بأطيب التهاني والتبريكات إلى<br><br>
+<img src="logo.png" class="logo">
 
-            <span id="displayName">ضيفنا الكريم</span><br><br>
+<h1>عيد أضحى مبارك</h1>
 
-            بمناسبة عيد الأضحى المبارك 🌙
-        </div>
+<p>
+تتقدم أكاديمية العرب للإطفاء والسلامة والأمن<br>
+بأصدق التهاني والتبريكات<br>
+بمناسبة عيد الأضحى المبارك
+</p>
 
-    </div>
+<h2 id="greetingName">
+كل عام وأنتم بخير
+</h2>
 
-    <div class="input-box">
+<input type="text" id="nameInput" placeholder="اكتب الاسم الكامل هنا">
 
-        <input type="text" id="visitorName" placeholder="اكتب الاسم الكامل هنا">
+<button class="generate" onclick="generateGreeting()">
+إنشاء المعايدة
+</button>
 
-        <br>
+<button class="share" onclick="shareGreeting()">
+مشاركة المعايدة
+</button>
 
-        <button onclick="generateGreeting()">
-            عرض المعايدة
-        </button>
+<div class="footer">
+AFSSAC Academy
+</div>
 
-    </div>
-
-    <div class="footer">
-        AFSSAC Academy © 2026
-    </div>
-
+</div>
+</div>
 </div>
 
 <script>
 
 function generateGreeting(){
 
-    const name = document.getElementById("visitorName").value.trim();
+let name = document.getElementById("nameInput").value;
 
-    if(name === ""){
-        alert("يرجى كتابة الاسم الكامل");
-        return;
-    }
+if(name.trim() === ""){
+    alert("من فضلك اكتب الاسم");
+    return;
+}
 
-    document.getElementById("displayName").innerText = name;
+document.getElementById("greetingName").innerHTML =
+"الأستاذ / " + name + "<br>كل عام وأنتم بخير";
 
-    const newUrl = window.location.pathname + "?name=" + encodeURIComponent(name);
+let url = window.location.origin + window.location.pathname + "?name=" + encodeURIComponent(name);
 
-    window.history.replaceState({}, "", newUrl);
+window.history.replaceState({},'',url);
+
+}
+
+function shareGreeting(){
+
+navigator.clipboard.writeText(window.location.href);
+
+alert("تم نسخ رابط المعايدة");
 }
 
 window.onload = function(){
 
-    const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 
-    const name = params.get("name");
+const name = params.get("name");
 
-    if(name){
+if(name){
 
-        document.getElementById("displayName").innerText = name;
+document.getElementById("greetingName").innerHTML =
+"الأستاذ / " + name + "<br>كل عام وأنتم بخير";
 
-        document.getElementById("visitorName").value = name;
-    }
+document.getElementById("nameInput").value = name;
+
+}
+
 }
 
 </script>
