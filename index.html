@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,85 +8,134 @@
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma;
+}
+
 body{
-    margin:0;
-    padding:0;
-    font-family:Tahoma;
-    background:#f7f3ee;
-    display:flex;
-    justify-content:center;
+background:#f7f3ee;
+display:flex;
+justify-content:center;
+padding:20px;
 }
 
 .container{
-    width:100%;
-    max-width:700px;
-    padding:20px;
+width:100%;
+max-width:700px;
 }
 
-.main-card{
-    background:white;
-    border-radius:25px;
-    overflow:hidden;
-    box-shadow:0 0 20px rgba(0,0,0,0.1);
+/* صفحة البداية */
+
+.start-page{
+background:white;
+padding:40px 25px;
+border-radius:25px;
+box-shadow:0 0 20px rgba(0,0,0,0.1);
+text-align:center;
 }
 
-.top-image{
-    width:100%;
-    display:block;
+.logo{
+width:120px;
+margin-bottom:20px;
 }
 
-.content{
-    padding:25px;
-    text-align:center;
+.title{
+font-size:38px;
+color:#1f5f3b;
+margin-bottom:15px;
+font-weight:bold;
+}
+
+.desc{
+color:#777;
+font-size:20px;
+margin-bottom:25px;
+line-height:1.8;
 }
 
 input{
-    width:100%;
-    padding:18px;
-    border-radius:15px;
-    border:2px solid #d4a54c;
-    font-size:22px;
-    margin-top:20px;
-    box-sizing:border-box;
-    text-align:center;
+width:100%;
+padding:18px;
+border-radius:15px;
+border:2px solid #d4a54c;
+font-size:22px;
+text-align:center;
+outline:none;
 }
 
 button{
-    width:100%;
-    padding:18px;
-    border:none;
-    border-radius:15px;
-    background:#1f5f3b;
-    color:white;
-    font-size:28px;
-    margin-top:20px;
-    cursor:pointer;
-    font-weight:bold;
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+background:#1f5f3b;
+color:white;
+font-size:28px;
+margin-top:20px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
 }
 
+button:hover{
+background:#17482d;
+}
+
+/* الكارت */
+
 .result{
-    margin-top:30px;
-    display:none;
+display:none;
 }
 
 .card-preview{
-    position:relative;
+position:relative;
 }
 
 .card-preview img{
-    width:100%;
-    border-radius:20px;
+width:100%;
+border-radius:25px;
+display:block;
+}
+
+/* الاسم داخل التصميم */
+
+.name{
+position:absolute;
+top:51%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:42px;
+color:#c6922d;
+font-weight:bold;
+width:85%;
+text-align:center;
+text-shadow:1px 1px 3px rgba(0,0,0,0.2);
+}
+
+/* موبايل */
+
+@media(max-width:600px){
+
+.title{
+font-size:30px;
+}
+
+.desc{
+font-size:18px;
+}
+
+button{
+font-size:24px;
 }
 
 .name{
-    position:absolute;
-    top:47%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    font-size:38px;
-    color:#b8860b;
-    font-weight:bold;
-    width:80%;
+font-size:34px;
+top:50%;
+}
+
 }
 
 </style>
@@ -95,15 +145,29 @@ button{
 
 <div class="container">
 
-<div class="main-card">
+<!-- صفحة البداية -->
 
-<img src="Card.jpg" class="top-image">
+<div class="start-page" id="startPage">
 
-<div class="content">
+<img src="logo.png" class="logo">
 
-<input type="text" id="username" placeholder="اكتب الاسم كاملا هنا">
+<div class="title">
+معايدة عيد الأضحى
+</div>
 
-<button onclick="showCard()">عرض المعايدة</button>
+<div class="desc">
+اكتب اسمك وسيتم إنشاء معايدة خاصة بك بشكل احترافي
+</div>
+
+<input type="text" id="username" placeholder="اكتب الاسم بالكامل">
+
+<button onclick="showCard()">
+عرض المعايدة
+</button>
+
+</div>
+
+<!-- الكارت النهائي -->
 
 <div class="result" id="result">
 
@@ -121,27 +185,33 @@ button{
 
 </div>
 
-</div>
-
-</div>
-
 <script>
 
 function showCard(){
 
-let name=document.getElementById("username").value;
+let name = document.getElementById("username").value;
 
-if(name.trim()==""){
-alert("اكتب الاسم");
+if(name.trim() == ""){
+alert("من فضلك اكتب الاسم");
 return;
 }
 
-document.getElementById("cardName").innerHTML=name;
+/* وضع الاسم */
 
-document.getElementById("result").style.display="block";
+document.getElementById("cardName").innerHTML = name;
+
+/* إخفاء البداية */
+
+document.getElementById("startPage").style.display = "none";
+
+/* إظهار الكارت */
+
+document.getElementById("result").style.display = "block";
+
+/* بداية الصفحة */
 
 window.scrollTo({
-top:document.body.scrollHeight,
+top:0,
 behavior:'smooth'
 });
 
