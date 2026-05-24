@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>معايدة أفساك السنوية</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -24,12 +24,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 0;
+            margin: 0;
         }
 
-        /* الصفحة الأولى (صندوق إدخال البيانات) */
+        /* الصفحة الأولى (واجهة الإدخال) */
         .first-page {
-            width: 100%;
+            width: 90%;
             max-width: 420px;
             background: #fff;
             padding: 35px 25px;
@@ -39,13 +40,11 @@
             display: block;
         }
 
-        /* اللوجو */
         .logo {
             width: 110px;
             margin-bottom: 20px;
         }
 
-        /* العنوان الجديد */
         .title {
             font-size: 24px;
             font-weight: 700;
@@ -53,7 +52,6 @@
             color: #0b1a30;
         }
 
-        /* حقل الإدخال */
         input {
             width: 100%;
             padding: 16px;
@@ -64,15 +62,8 @@
             margin-bottom: 25px;
             text-align: center;
             color: #333;
-            background: #fdfdfd;
-            transition: border-color 0.3s;
         }
 
-        input:focus {
-            border-color: #0d5c3f;
-        }
-
-        /* الأزرار */
         .buttons {
             display: flex;
             gap: 12px;
@@ -86,11 +77,6 @@
             font-size: 17px;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
-        }
-
-        button:active {
-            transform: scale(0.98);
         }
 
         .show-btn {
@@ -103,39 +89,35 @@
             color: #fff;
         }
 
-        /* الصفحة الثانية (الكارت) - محسنة بالكامل للموبايل وطول الشاشة */
+        /* الصفحة الثانية (إجبار الصورة على ملء شاشة الجوال طولياً) */
         .second-page {
             display: none; 
-            width: 100%;
-            max-width: 480px; /* متناسق تماماً مع أبعاد الهواتف الذكية */
+            width: 100vw;
+            height: 100vh;
+            max-width: 500px; /* لضمان عدم تمددها بشكل مشوه على الكمبيوتر */
             position: relative;
             background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            overflow: hidden;
         }
 
         .second-page img {
             width: 100%;
-            max-height: 88vh; /* يجعل الكارت يأخذ مساحة طولية ممتازة من شاشة الجوال */
-            object-fit: contain;
+            height: 100%;
+            object-fit: fill; /* تجعل الصورة تمتد لتملأ الطول والعرض بالكامل على شاشة الموبايل */
             display: block;
         }
 
-        /* تنسيق وموقع الاسم الجديد ليكون بالأسفل في الفراغ النظيف */
+        /* إحداثيات الاسم الجديدة ليكون بالأسفل في الفراغ الأبيض تماماً */
         .name-box {
             position: absolute;
-            bottom: 14.5%; /* نزول الاسم ليتناسب تماماً فوق كلمة 1447 هـ دون التداخل مع تصميم الكعبة */
+            bottom: 11%; /* تم إنزاله بدقة ليكون فوق الـ 1447 هـ مباشرة */
             left: 0;
             width: 100%;
             text-align: center;
-            font-size: 28px; /* تكبير حجم الخط ليكون واضحاً ومهيباً */
+            font-size: 26px; /* حجم خط ممتاز وواضح على الجوال */
             font-weight: 700;
-            color: #111; /* لون داكن صريح يتطابق مع نصوص الكارت المطبوعة */
-            padding: 0 20px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: #000;
+            padding: 0 15px;
+            direction: rtl;
         }
     </style>
 </head>
@@ -144,13 +126,8 @@
 
     <section class="first-page" id="firstPage">
         <img src="logo.png" class="logo" alt="الشعار">
-
-        <div class="title">
-            معايدة أفساك السنوية
-        </div>
-
+        <div class="title">معايدة أفساك السنوية</div>
         <input type="text" id="nameInput" placeholder="اكتب الاسم هنا" maxlength="40">
-
         <div class="buttons">
             <button class="show-btn" onclick="showGreeting()">عرض المعايدة</button>
             <button class="whatsapp-btn" onclick="shareWhatsApp()">واتساب</button>
@@ -171,12 +148,12 @@
                 return;
             }
 
-            // طباعة الاسم داخل الكارت
             document.getElementById("userName").innerText = enteredName;
-
-            // إخفاء صفحة الإدخال وإظهار الكارت بحجمه الجديد
             document.getElementById("firstPage").style.display = "none";
             document.getElementById("secondPage").style.display = "block";
+            
+            // تهيئة وتأكيد أبعاد الشاشة فور العرض
+            window.scrollTo(0, 0);
         }
 
         function shareWhatsApp() {
@@ -188,11 +165,8 @@
             }
 
             let currentUrl = window.location.href; 
-
             let message = `🌙 *كل عام وأنتم بخير*\n\nتفضل بقبول تهنئة عيد الأضحى المبارك مقدمة من:\n*${enteredName}*\n\nلرؤية المعايدة الخاصة بك افتح الرابط التالي:\n${currentUrl}`;
-
             let link = "https://wa.me/?text=" + encodeURIComponent(message);
-            
             window.open(link, '_blank');
         }
     </script>
