@@ -45,26 +45,26 @@ margin-bottom:20px;
 .title{
 font-size:38px;
 color:#1f5f3b;
-margin-bottom:15px;
+margin-bottom:25px;
 font-weight:bold;
+line-height:1.5;
 }
 
-.desc{
-color:#777;
-font-size:20px;
-margin-bottom:25px;
-line-height:1.8;
-}
+/* مربع الإدخال */
 
 input{
 width:100%;
 padding:18px;
 border-radius:15px;
 border:2px solid #d4a54c;
-font-size:22px;
+font-size:38px;
 text-align:center;
+font-weight:bold;
+color:#b8860b;
 outline:none;
 }
+
+/* الزر */
 
 button{
 width:100%;
@@ -84,7 +84,7 @@ button:hover{
 background:#17482d;
 }
 
-/* الكارت */
+/* الكارت النهائي */
 
 .result{
 display:none;
@@ -100,22 +100,22 @@ border-radius:25px;
 display:block;
 }
 
-/* الاسم داخل التصميم */
+/* الاسم داخل الكارت */
 
 .name{
 position:absolute;
-top:51%;
+top:45%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:42px;
-color:#c6922d;
+font-size:52px;
+color:#b8860b;
 font-weight:bold;
 width:85%;
 text-align:center;
 text-shadow:1px 1px 3px rgba(0,0,0,0.2);
 }
 
-/* موبايل */
+/* الموبايل */
 
 @media(max-width:600px){
 
@@ -123,17 +123,17 @@ text-shadow:1px 1px 3px rgba(0,0,0,0.2);
 font-size:30px;
 }
 
-.desc{
-font-size:18px;
-}
-
 button{
 font-size:24px;
 }
 
+input{
+font-size:30px;
+}
+
 .name{
-font-size:34px;
-top:50%;
+font-size:38px;
+top:45%;
 }
 
 }
@@ -155,10 +155,6 @@ top:50%;
 معايدة عيد الأضحى
 </div>
 
-<div class="desc">
-اكتب اسمك وسيتم إنشاء معايدة خاصة بك بشكل احترافي
-</div>
-
 <input type="text" id="username" placeholder="اكتب الاسم بالكامل">
 
 <button onclick="showCard()">
@@ -175,9 +171,7 @@ top:50%;
 
 <img src="Card.jpg">
 
-<div class="name" id="cardName">
-الاسم الكامل
-</div>
+<div class="name" id="cardName"></div>
 
 </div>
 
@@ -196,7 +190,7 @@ alert("من فضلك اكتب الاسم");
 return;
 }
 
-/* وضع الاسم */
+/* وضع الاسم داخل الكارت */
 
 document.getElementById("cardName").innerHTML = name;
 
