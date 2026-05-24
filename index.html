@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -26,9 +28,52 @@
             align-items: center;
             padding: 0;
             margin: 0;
+            overflow: hidden; /* لمنع السكرول أثناء حركة الستارة */
         }
 
-        /* الصفحة الأولى (واجهة كتابة الاسم) */
+        /* ----- تأثير الستارة الترحيبية ----- */
+        .curtain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #0d5c3f; /* لون هوية أفساك */
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .curtain-logo {
+            width: 150px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .curtain-text {
+            color: #fff;
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* حركة تلاشي الستارة */
+        .curtain-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        /* ----- الصفحة الأولى ----- */
         .first-page {
             width: 90%;
             max-width: 420px;
@@ -38,6 +83,7 @@
             text-align: center;
             box-shadow: 0 8px 24px rgba(0,0,0,0.06);
             display: block;
+            z-index: 1;
         }
 
         .logo {
@@ -77,50 +123,71 @@
             font-size: 17px;
             font-weight: 700;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .show-btn {
             background: #0d5c3f;
             color: #fff;
+            width: 100%; /* ليأخذ الزر المساحة كاملة بشكل أنيق */
         }
 
-        .whatsapp-btn {
-            background: #25D366;
-            color: #fff;
-        }
-
-        /* الصفحة الثانية (تأمين أبعاد الصورة لمنع المط) */
+        /* ----- الصفحة الثانية ----- */
         .second-page {
             display: none; 
             width: 100vw;
-            max-width: 500px; /* الحجم المثالي لأبعاد كروت الجوال */
-            position: relative;
-            background: #fff;
+            max-width: 500px;
+            text-align: center;
+            padding: 10px;
         }
 
-        .second-page img {
+        /* حاوية الكارت التي سيتم حفظها كصورة */
+        .card-container {
             width: 100%;
-            height: auto; /* الحفاظ التام على أبعاد التصميم الأصلية ومنع المط */
+            position: relative;
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .card-container img {
+            width: 100%;
+            height: auto;
             display: block;
         }
 
-        /* ميزان موقع الاسم ليكون في المساحة البيضاء المحددة بدقة */
+        /* موقع الاسم الموزون بالملي في المساحة البيضاء */
         .name-box {
             position: absolute;
-            bottom: 9.5%; /* تم إنزاله بدقة ليتوسط الفراغ تماماً فوق التاريخ */
+            bottom: 9.5%; 
             left: 0;
             width: 100%;
             text-align: center;
-            font-size: 26px; /* حجم الخط واضح وعريض */
+            font-size: 26px;
             font-weight: 700;
             color: #000;
             padding: 0 15px;
             direction: rtl;
         }
+
+        /* زر الحفظ الجديد أسفل الكارت */
+        .save-btn {
+            background: #107c41;
+            color: #fff;
+            margin-top: 15px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(16, 124, 65, 0.3);
+        }
     </style>
 </head>
 
 <body>
+
+    <div class="curtain-overlay" id="curtain">
+        <img src="logo.png" class="curtain-logo" alt="أفساك">
+        <div class="curtain-text">أهلاً بكم في أفساك</div>
+    </div>
 
     <section class="first-page" id="firstPage">
         <img src="logo.png" class="logo" alt="الشعار">
@@ -128,16 +195,29 @@
         <input type="text" id="nameInput" placeholder="اكتب الاسم هنا" maxlength="40">
         <div class="buttons">
             <button class="show-btn" onclick="showGreeting()">عرض المعايدة</button>
-            <button class="whatsapp-btn" onclick="shareWhatsApp()">واتساب</button>
         </div>
     </section>
 
     <section class="second-page" id="secondPage">
-        <img src="Card.jpg" alt="بطاقة التهنئة">
-        <div class="name-box" id="userName"></div>
+        <div class="card-container" id="cardCapture">
+            <img src="Card.jpg" alt="بطاقة التهنئة">
+            <div class="name-box" id="userName"></div>
+        </div>
+        
+        <button class="save-btn" onclick="downloadCard()">حفظ المعايدة كصورة 💾</button>
     </section>
 
     <script>
+        // تشغيل تأثير الستارة تلقائياً عند فتح اللينك
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const curtain = document.getElementById('curtain');
+                curtain.classList.add('curtain-hidden');
+                // السماح بالسكرول بعد انتهاء التأثير
+                document.body.style.overflow = 'auto'; 
+            }, 2200); // تظل الستارة ثانيتين ثم تختفي بسلاسة
+        });
+
         function showGreeting() {
             let enteredName = document.getElementById("nameInput").value.trim();
 
@@ -153,18 +233,36 @@
             window.scrollTo(0, 0);
         }
 
-        function shareWhatsApp() {
+        // دالة تحويل الكارت لـ صورة وتحميلها فوراً
+        function downloadCard() {
             let enteredName = document.getElementById("nameInput").value.trim();
+            const cardElement = document.getElementById('cardCapture');
+            
+            // إشعار المستخدم ببدء الحفظ
+            const saveBtn = document.querySelector('.save-btn');
+            saveBtn.innerText = "جاري التحضير والحفظ...";
+            saveBtn.style.opacity = "0.7";
 
-            if (enteredName === "") {
-                alert("الرجاء كتابة الاسم أولاً للمشاركة عبر واتساب.");
-                return;
-            }
+            // التقاط الحاوية بدقة وجودة عالية تناسب الموبايل
+            html2canvas(cardElement, {
+                useCORS: true,
+                scale: 3, // رفع جودة الصورة المنتجة لتكون حادة وممتازة عند المشاركة
+                allowTaint: true
+            }).then(canvas => {
+                const image = canvas.toDataURL('image/jpeg', 1.0);
+                const link = document.createElement('a');
+                link.download = `معايدة_أفساك_${enteredName}.jpg`;
+                link.href = image;
+                link.click();
 
-            let currentUrl = window.location.href; 
-            let message = `🌙 *كل عام وأنتم بخير*\n\nتفضل بقبول تهنئة عيد الأضحى المبارك مقدمة من:\n*${enteredName}*\n\nلرؤية المعايدة الخاصة بك افتح الرابط التالي:\n${currentUrl}`;
-            let link = "https://wa.me/?text=" + encodeURIComponent(message);
-            window.open(link, '_blank');
+                // إعادة الزر لشكلة الطبيعي
+                saveBtn.innerText = "حفظ المعايدة كصورة 💾";
+                saveBtn.style.opacity = "1";
+            }).catch(err => {
+                alert("عذراً، حدث خطأ أثناء الحفظ، يرجى المحاولة مجدداً.");
+                saveBtn.innerText = "حفظ المعايدة كصورة 💾";
+                saveBtn.style.opacity = "1";
+            });
         }
     </script>
 
