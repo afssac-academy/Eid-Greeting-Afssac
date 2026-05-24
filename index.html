@@ -1,94 +1,194 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تهنئة عيد الفطر - أكاديمية العرب</title>
-    <style>
-        /* تعريف خط Questv1 ليتناسب مع "عيد مبارك" */
-        @font-face {
-            font-family: 'Questv1';
-            src: url('https://db.onlinewebfonts.com/t/79495b5c777d449f874f664a34b22301.woff2') format('woff2');
-            font-weight: normal;
-        }
 
-        body { font-family: 'Arial', sans-serif; background: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .box { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 380px; }
-        .logo { width: 100px; margin-bottom: 20px; }
-        input { font-family: 'Questv1', sans-serif; width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 12px; font-size: 18px; text-align: center; margin-bottom: 20px; outline: none; }
-        .btn { font-family: 'Questv1', sans-serif; border: none; padding: 15px; border-radius: 12px; font-size: 18px; cursor: pointer; width: 100%; font-weight: bold; }
-        .btn-green { background: #1a5e3a; color: white; }
-        .btn-red { background: #d1202f; color: white; margin-top: 15px; }
-        .btn-gray { background: #666; color: white; margin-top: 10px; }
-        
-        #step2 { display: none; }
-        canvas { width: 100%; border-radius: 15px; background: #eee; }
-    </style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>معايدة عيد الأضحى - أفساك</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    font-family:'Cairo',sans-serif;
+    background:#f8f6ef;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    width:95%;
+    max-width:700px;
+    background:white;
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    position:relative;
+}
+
+.hero{
+    position:relative;
+    padding:40px 20px;
+    text-align:center;
+    background:linear-gradient(to bottom,#ffffff,#f7f2df);
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:url('Card.jpg') center center no-repeat;
+    background-size:cover;
+    opacity:0.08;
+}
+
+.logo{
+    width:120px;
+    position:relative;
+    z-index:2;
+}
+
+h1{
+    position:relative;
+    z-index:2;
+    color:#8b6b00;
+    margin-top:20px;
+    font-size:34px;
+}
+
+.greeting{
+    position:relative;
+    z-index:2;
+    color:#444;
+    font-size:24px;
+    margin-top:15px;
+    line-height:2;
+}
+
+#displayName{
+    color:#b8860b;
+    font-weight:bold;
+}
+
+.input-box{
+    padding:30px 20px;
+    text-align:center;
+}
+
+input{
+    width:85%;
+    padding:15px;
+    border-radius:15px;
+    border:1px solid #ddd;
+    font-size:18px;
+    font-family:'Cairo',sans-serif;
+    outline:none;
+}
+
+button{
+    margin-top:15px;
+    padding:14px 30px;
+    border:none;
+    border-radius:15px;
+    background:#b8860b;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    font-family:'Cairo',sans-serif;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#9d7508;
+}
+
+.footer{
+    text-align:center;
+    padding:20px;
+    color:#777;
+    font-size:15px;
+}
+
+</style>
 </head>
+
 <body>
 
-<div class="box" id="step1">
-    <img src="logo.png" class="logo" onerror="this.style.display='none'">
-    <h2 style="color:#1a5e3a; font-family: 'Questv1', sans-serif;">إنشاء بطاقة المعايدة</h2>
-    <input type="text" id="nameInput" placeholder="اكتب الاسم هنا..." maxlength="40">
-    <button class="btn btn-green" onclick="generateCard()">إنشاء البطاقة الآن</button>
-</div>
+<div class="container">
 
-<div class="box" id="step2">
-    <canvas id="cardCanvas"></canvas>
-    <button class="btn btn-red" onclick="downloadImage()">تحميل الصورة</button>
-    <button class="btn btn-gray" onclick="location.reload()">تعديل الاسم</button>
+    <div class="hero">
+
+        <img src="logo.png" class="logo">
+
+        <h1>عيد أضحى مبارك</h1>
+
+        <div class="greeting">
+            تتقدم أكاديمية أفساك للإطفاء والسلامة والأمن<br>
+            بأطيب التهاني والتبريكات إلى<br><br>
+
+            <span id="displayName">ضيفنا الكريم</span><br><br>
+
+            بمناسبة عيد الأضحى المبارك 🌙
+        </div>
+
+    </div>
+
+    <div class="input-box">
+
+        <input type="text" id="visitorName" placeholder="اكتب الاسم الكامل هنا">
+
+        <br>
+
+        <button onclick="generateGreeting()">
+            عرض المعايدة
+        </button>
+
+    </div>
+
+    <div class="footer">
+        AFSSAC Academy © 2026
+    </div>
+
 </div>
 
 <script>
-    const canvas = document.getElementById('cardCanvas');
-    const ctx = canvas.getContext('2d');
-    const cardImg = new Image();
-    
-    // تأكد أن اسم ملف الصورة الأصلية في GitHub هو Card.jpg (C كبيرة)
-    cardImg.src = 'Card.jpg'; 
 
-    function generateCard() {
-        const name = document.getElementById('nameInput').value.trim();
-        if (!name) return alert("من فضلك اكتب الاسم أولاً");
+function generateGreeting(){
 
-        canvas.width = 1080;
-        canvas.height = 1920;
+    const name = document.getElementById("visitorName").value.trim();
 
-        if (cardImg.complete) {
-            ctx.drawImage(cardImg, 0, 0, canvas.width, canvas.height);
-            drawText(name);
-        } else {
-            cardImg.onload = function() {
-                ctx.drawImage(cardImg, 0, 0, canvas.width, canvas.height);
-                drawText(name);
-            };
-        }
-
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
+    if(name === ""){
+        alert("يرجى كتابة الاسم الكامل");
+        return;
     }
 
-    function drawText(name) {
-        // --- تطبيق التعديلات الجوهرية ---
-        
-        // 1. اللون: تغيير من البني الداكن إلى الأسود الصريح
-        ctx.fillStyle = "#000000"; 
-        ctx.textAlign = "center";
-        
-        // 2. نوع الخط والوزن: الحفاظ على Questv1-Regular
-        ctx.font = "normal 90px 'Questv1', sans-serif"; 
-        
-        // 3. المكان (1700): إنزال الاسم ليكون في أسفل البطاقة تماماً فوق التاريخ
-        ctx.fillText(name, canvas.width / 2, 1700);
-    }
+    document.getElementById("displayName").innerText = name;
 
-    function downloadImage() {
-        const link = document.createElement('a');
-        link.download = 'Eid_Greeting_AFSSAC.png';
-        link.href = canvas.toDataURL("image/png");
-        link.click();
+    const newUrl = window.location.pathname + "?name=" + encodeURIComponent(name);
+
+    window.history.replaceState({}, "", newUrl);
+}
+
+window.onload = function(){
+
+    const params = new URLSearchParams(window.location.search);
+
+    const name = params.get("name");
+
+    if(name){
+
+        document.getElementById("displayName").innerText = name;
+
+        document.getElementById("visitorName").value = name;
     }
+}
+
 </script>
 
 </body>
